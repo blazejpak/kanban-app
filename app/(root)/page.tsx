@@ -5,7 +5,7 @@ export default async function Home() {
   const user = await currentUser();
   console.log(user);
 
-  // if (!user) redirect("/sign-in");
+  if (!user) redirect("/sign-in");
 
   return (
     <main>
