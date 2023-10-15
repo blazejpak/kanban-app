@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
 import Navbar from "@/components/shared/Navbar";
+import Providers from "../../components/theme/providers";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -21,8 +22,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={jakarta.className} suppressHydrationWarning={true}>
-          <Navbar />
-          {children}
+          <Providers>
+            <Navbar />
+            {children}
+          </Providers>
         </body>
       </html>
     </ClerkProvider>
