@@ -1,17 +1,22 @@
 import { MouseEvent } from "react";
 
+import Image from "next/image";
+
+import plusMobile from "@/public/assets/icon-add-task-mobile.svg";
+
 interface Props {
   text: string;
   onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  plus: boolean;
 }
 
-const Button = ({ text, onClick }: Props) => {
+const Button = ({ text, onClick, plus }: Props) => {
   return (
     <button
       onClick={onClick}
-      className="bg-[#635FC7] w-40 h-12 rounded-3xl font-bold"
+      className="bg-[#635FC7] px-4 py-2 sm:py-4 rounded-3xl flex justify-center items-center font-bold"
     >
-      {text}
+      {plus ? <Image src={plusMobile} width={10} alt="add task plus" /> : text}
     </button>
   );
 };

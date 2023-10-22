@@ -1,10 +1,11 @@
-import { ClerkProvider } from "@clerk/nextjs";
 import "../globals.css";
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
 import Navbar from "@/components/shared/Navbar";
-import Providers from "@/components/theme/providers";
+import Providers from "@/components/theme/Providers";
+import { ProvideStore } from "@/store/provider";
+import LeftBar from "@/components/shared/LeftBar";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -19,18 +20,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-          className={`${jakarta.className} bg-[#F4F7FD] dark:bg-[#20212C]`}
-          suppressHydrationWarning={true}
-        >
+    <html lang="en">
+      <body
+        className={`${jakarta.className} bg-[#F4F7FD] dark:bg-[#20212C]`}
+        suppressHydrationWarning={true}
+      >
+        <ProvideStore>
           <Providers>
             <Navbar />
-            {children}
+            <main className="flex flex-row">
+              <LeftBar />
+              <section className="min-h-screen">{children}</section>
+            </main>
           </Providers>
-        </body>
-      </html>
-    </ClerkProvider>
+        </ProvideStore>
+      </body>
+    </html>
   );
 }
