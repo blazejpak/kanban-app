@@ -12,13 +12,14 @@ import menuInActive from "@/public/assets/icon-chevron-down.svg";
 import dots from "@/public/assets/icon-vertical-ellipsis.svg";
 import Button from "../ui/Button";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import Board from "../groups/board";
 
 const Navbar = () => {
   const isActive = useAppSelector((state) => state.activeMenuSlice.isActive);
   const dispatch = useAppDispatch();
 
   return (
-    <header className=" h-[97px] w-full bg-white dark:bg-[#2B2C37] flex justify-between items-center dark:border-b dark:border-[#3E3F4E] px-[5%] fixed z-20">
+    <header className="h-16 sm:h-20 xl:h-24 w-full bg-white dark:bg-[#2B2C37] flex justify-between items-center dark:border-b dark:border-[#3E3F4E] px-[5%] fixed z-20">
       <div className="flex sm:gap-6 gap-4 h-full items-center">
         <div className="hidden sm:block">
           <Image
@@ -44,7 +45,11 @@ const Navbar = () => {
 
         <div className="hidden sm:block h-full w-[1px] dark:bg-[#3E3F4E] bg-[#E4EBFA]"></div>
 
-        <h1 className="sm:text-xl hidden sm:block font-bold">
+        <h1
+          className={`sm:text-xl hidden sm:block font-bold ${
+            isActive && "sm:pl-8"
+          }`}
+        >
           Platform Launch
         </h1>
 
@@ -76,7 +81,7 @@ const Navbar = () => {
       {isActive && (
         <nav className="text-[#828FA3] sm:hidden w-64 h-40 top-[110%] rounded-lg bg-[#fff] dark:bg-[#2B2C37] absolute ">
           {/* TODO */}
-          <h2 className="uppercase tracking-wide text-xs p-5">All boards</h2>
+          <Board />
         </nav>
       )}
     </header>
