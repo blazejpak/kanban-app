@@ -12,7 +12,7 @@ import menuInActive from "@/public/assets/icon-chevron-down.svg";
 import dots from "@/public/assets/icon-vertical-ellipsis.svg";
 import Button from "../ui/Button";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import Board from "../groups/board";
+import Board from "../groups/Board";
 
 const Navbar = () => {
   const isActive = useAppSelector((state) => state.activeMenuSlice.isActive);

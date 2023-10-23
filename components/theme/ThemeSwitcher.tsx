@@ -24,8 +24,6 @@ const ThemeSwitcher = () => {
   }
   const currentTheme = theme === "system" ? systemTheme : theme;
 
-  console.log(theme);
-
   const themeChanger = () => {
     currentTheme === "dark" ? setTheme("light") : setTheme("dark");
   };

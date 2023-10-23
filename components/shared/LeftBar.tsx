@@ -8,7 +8,7 @@ import showMenu from "@/public/assets/icon-show-sidebar.svg";
 import hideMenu from "@/public/assets/icon-hide-sidebar.svg";
 import logoLight from "@/public/assets/logo-dark.svg";
 import logoDark from "@/public/assets/logo-light.svg";
-import Board from "../groups/board";
+import Board from "../groups/Board";
 import ThemeSwitcher from "../theme/ThemeSwitcher";
 
 const LeftBar = () => {
@@ -20,7 +20,7 @@ const LeftBar = () => {
   return (
     <section className="relative min-h-screen">
       {isActive && (
-        <nav className="hidden sm:flex w-64 bg-[#fff] h-screen z-30 sticky border-r-2 dark:border-[#3E3F4E] border-[#E4EBFA] dark:bg-[#2B2C37] flex-col justify-between">
+        <nav className="hidden sm:flex w-64 bg-[#fff] h-screen z-30 sticky border-r-[1px] dark:border-[#3E3F4E] border-[#E4EBFA] dark:bg-[#2B2C37] flex-col justify-between">
           <div className="flex flex-col gap-14">
             <div className="pt-9 pl-7">
               <Image
@@ -40,14 +40,14 @@ const LeftBar = () => {
             <Board />
           </div>
 
-          <div className="mb-10 flex flex-col gap-5">
+          <div className="mb-10 flex flex-col gap-5 pl-2">
             <ThemeSwitcher />
             <div
               className="flex gap-3 items-center pl-6 cursor-pointer"
               onClick={() => dispatch({ type: "activeMenu/toggleMenu" })}
             >
               <Image src={hideMenu} alt="hide bar" className="h-4" />
-              <p>Hide Sidebar</p>
+              <p className="text-[#828FA3] font-bold text-sm">Hide Sidebar</p>
             </div>
           </div>
         </nav>
@@ -56,8 +56,8 @@ const LeftBar = () => {
       {/* hide bar */}
       <div
         className={`${
-          isActive && "hidden"
-        } bottom-[20%] absolute h-12 w-14 bg-[#635FC7] cursor-pointer flex justify-center items-center rounded-tr-3xl rounded-br-3xl z-40`}
+          isActive && "sm:hidden"
+        } hidden bottom-[20%] absolute h-12 w-14 bg-[#635FC7] cursor-pointer sm:flex justify-center items-center rounded-tr-3xl rounded-br-3xl z-40`}
         onClick={() => dispatch({ type: "activeMenu/toggleMenu" })}
       >
         <Image src={showMenu} width={20} alt="show sidebar" />
