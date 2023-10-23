@@ -15,8 +15,6 @@ const LeftBar = () => {
   const isActive = useAppSelector((state) => state.activeMenuSlice.isActive);
   const dispatch = useAppDispatch();
 
-  console.log(isActive);
-
   return (
     <section className="relative min-h-screen">
       {isActive && (

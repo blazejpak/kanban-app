@@ -14,7 +14,7 @@ const Button = ({ text, onClick, plus }: Props) => {
   return (
     <button
       onClick={onClick}
-      className="bg-[#635FC7] text-white  px-4 py-2 sm:py-4 rounded-3xl flex justify-center items-center font-bold"
+      className="bg-[#635FC7] text-white  px-4 py-2 sm:py-4 rounded-3xl flex justify-center items-center font-bold hover:bg-[#A8A4FF] transition-all"
     >
       {plus ? <Image src={plusMobile} width={10} alt="add task plus" /> : text}
     </button>
