@@ -24,12 +24,16 @@ const Navbar = () => {
 
   useEffect(() => {
     const handler = (event: MouseEvent) => {
-      if (!backdropRef.current) return;
+      if (window.outerWidth <= 640) {
+        if (!backdropRef.current) return;
+        // if (!isActive) return;
 
-      if (!backdropRef.current.contains(event.target)) {
-        dispatch({ type: "activeMenu/toggleMenu" });
-        event.stopPropagation();
+        if (!backdropRef.current.contains(event.target) && isActive) {
+          dispatch({ type: "activeMenu/toggleMenu" });
+          event.stopPropagation();
+        }
       }
+      return;
     };
 
     document.addEventListener("click", handler, true);
@@ -37,9 +41,7 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("click", handler);
     };
-  }, []);
-
-  console.log(isActive);
+  }, [window.outerWidth]);
 
   return (
     <header

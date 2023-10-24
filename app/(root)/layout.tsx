@@ -4,7 +4,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 
 import Navbar from "@/components/shared/Navbar";
 import { ProvideStore } from "@/store/provider";
-import Providers from "@/components/theme/Providers";
+import ProvidersTheme from "@/components/theme/Providers";
 
 import LeftBar from "@/components/shared/LeftBar";
 
@@ -27,13 +27,13 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <ProvideStore>
-          <Providers>
+          <ProvidersTheme>
             <Navbar />
             <main className="flex flex-row">
               <LeftBar />
               <section className="min-h-screen">{children}</section>
             </main>
-          </Providers>
+          </ProvidersTheme>
         </ProvideStore>
       </body>
     </html>
