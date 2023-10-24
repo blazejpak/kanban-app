@@ -3,8 +3,9 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
 import Navbar from "@/components/shared/Navbar";
-import Providers from "@/components/theme/Providers";
 import { ProvideStore } from "@/store/provider";
+import Providers from "@/components/theme/Providers";
+
 import LeftBar from "@/components/shared/LeftBar";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
