@@ -13,13 +13,39 @@ import dots from "@/public/assets/icon-vertical-ellipsis.svg";
 import Button from "../ui/Button";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Board from "../groups/Board";
+import ThemeSwitcher from "../theme/ThemeSwitcher";
+import { useEffect, useRef } from "react";
 
 const Navbar = () => {
   const isActive = useAppSelector((state) => state.activeMenuSlice.isActive);
   const dispatch = useAppDispatch();
 
+  const backdropRef = useRef<HTMLElement | any>();
+
+  useEffect(() => {
+    const handler = (event: MouseEvent) => {
+      if (!backdropRef.current) return;
+
+      if (!backdropRef.current.contains(event.target)) {
+        dispatch({ type: "activeMenu/toggleMenu" });
+        event.stopPropagation();
+      }
+    };
+
+    document.addEventListener("click", handler, true);
+
+    return () => {
+      document.removeEventListener("click", handler);
+    };
+  }, []);
+
+  console.log(isActive);
+
   return (
-    <header className="h-16 sm:h-20 xl:h-24 w-full bg-white dark:bg-[#2B2C37] flex justify-between items-center dark:border-b dark:border-[#3E3F4E] px-[5%] fixed z-20">
+    <header
+      ref={backdropRef}
+      className="h-16 sm:h-20 xl:h-24 w-full bg-white dark:bg-[#2B2C37] flex justify-between items-center dark:border-b dark:border-[#3E3F4E] px-[5%] fixed z-20"
+    >
       <div className="flex sm:gap-6 gap-4 h-full items-center">
         <div className="hidden sm:block">
           <Image
@@ -79,9 +105,15 @@ const Navbar = () => {
 
       {/* Mobile menu container */}
       {isActive && (
-        <nav className="text-[#828FA3] sm:hidden w-64 h-40 top-[110%] rounded-lg bg-[#fff] dark:bg-[#2B2C37] absolute ">
+        <nav
+          ref={backdropRef}
+          className="text-[#828FA3] sm:hidden w-64 h-96 top-[110%] rounded-lg bg-[#fff] dark:bg-[#2B2C37] absolute flex flex-col justify-between pb-4"
+        >
           {/* TODO */}
           <Board />
+          <div className="self-center">
+            <ThemeSwitcher />
+          </div>
         </nav>
       )}
     </header>
