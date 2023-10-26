@@ -12,6 +12,7 @@ export const connectToDB = async () => {
     isConnected = true;
   } catch (error) {
     console.log(error);
-    isConnected = false;
+    //cloud.mongodb.com/v2/6515b3b79a48321bccc87431#/triggers
+    https: isConnected = false;
   }
 };

@@ -1,10 +1,14 @@
-import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
+"use client";
 
-export default async function Home() {
+import Button from "@/components/ui/Button";
+
+export default function Home() {
   return (
-    <main>
-      <h1 className="text-green-500 dark:text-red-700">Starter</h1>
-      <ThemeSwitcher />
-    </main>
+    <section className="min-h-full flex flex-col justify-center items-center gap-4 text-center ">
+      <h2 className="text-lg font-bold text-[#828FA3] ">
+        You don't have any boards yet. Create a new one to get started.
+      </h2>
+      <Button onClick={() => {}} text="Create a Board" plus={false} />
+    </section>
   );
 }
