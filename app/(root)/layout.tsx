@@ -4,7 +4,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 
 import Navbar from "@/components/shared/Navbar";
 import { ProvideStore } from "@/store/provider";
-import ProvidersTheme from "@/components/theme/Providers";
+import ProvidersTheme from "@/components/theme/ProvidersTheme";
 
 import LeftBar from "@/components/shared/LeftBar";
 
