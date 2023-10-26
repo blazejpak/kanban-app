@@ -38,14 +38,16 @@ const LeftBar = () => {
             <Board />
           </div>
 
-          <div className="mb-10 flex flex-col gap-5 pl-2">
-            <ThemeSwitcher />
+          <div className=" flex flex-col gap-2  mb-10">
+            <div className="self-center">
+              <ThemeSwitcher />
+            </div>
             <div
-              className="flex gap-3 items-center pl-6 cursor-pointer"
+              className="flex gap-3 items-center pl-6 cursor-pointer hover:bg-white w-[240px] h-10 rounded-tr-xl rounded-br-xl transition-all"
               onClick={() => dispatch({ type: "activeMenu/toggleMenu" })}
             >
               <Image src={hideMenu} alt="hide bar" className="h-4" />
-              <p className="text-[#828FA3] font-bold text-sm">Hide Sidebar</p>
+              <p className="text-[#828FA3] font-bold text-sm ">Hide Sidebar</p>
             </div>
           </div>
         </nav>
@@ -55,7 +57,7 @@ const LeftBar = () => {
       <div
         className={`${
           isActive && "sm:hidden"
-        } hidden bottom-[20%] absolute h-12 w-14 bg-[#635FC7] cursor-pointer sm:flex justify-center items-center rounded-tr-3xl rounded-br-3xl z-40`}
+        } hidden bottom-[2.5rem] absolute h-12 w-14 bg-[#635FC7] cursor-pointer sm:flex justify-center items-center rounded-tr-3xl rounded-br-3xl z-40`}
         onClick={() => dispatch({ type: "activeMenu/toggleMenu" })}
       >
         <Image src={showMenu} width={20} alt="show sidebar" />

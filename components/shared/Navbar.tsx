@@ -49,7 +49,7 @@ const Navbar = () => {
       className="h-16 sm:h-20 xl:h-24 w-full bg-white dark:bg-[#2B2C37] flex justify-between items-center dark:border-b dark:border-[#3E3F4E] px-[5%] fixed z-20"
     >
       <div className="flex sm:gap-6 gap-4 h-full items-center">
-        <div className="hidden sm:block">
+        <div className={`hidden  ${!isActive && "sm:block"}`}>
           <Image
             src={logoDark}
             alt="logo"
@@ -75,7 +75,7 @@ const Navbar = () => {
 
         <h1
           className={`sm:text-xl hidden sm:block font-bold ${
-            isActive && "sm:pl-8"
+            isActive && "sm:pl-[200px] lg:pl-[200px]"
           }`}
         >
           Platform Launch
