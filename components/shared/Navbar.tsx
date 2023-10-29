@@ -14,9 +14,21 @@ import Button from "../ui/Button";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Board from "../groups/Board";
 import ThemeSwitcher from "../theme/ThemeSwitcher";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { getBoard } from "@/lib/actions/board.action";
 
 const Navbar = () => {
+  const [board, setBoard] = useState<Array<any>>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const boards = await getBoard();
+      setBoard(boards);
+    };
+
+    fetchData();
+  }, []);
+
   const isActive = useAppSelector((state) => state.activeMenuSlice.isActive);
   const dispatch = useAppDispatch();
 
@@ -97,10 +109,20 @@ const Navbar = () => {
       </div>
       <div className="flex gap-6 items-center">
         <div className="sm:block hidden">
-          <Button text="+ Add New Task" onClick={() => {}} plus={false} />
+          <Button
+            text="+ Add New Task"
+            onClick={() => {}}
+            plus={false}
+            disabled={board.length > 0 && false}
+          />
         </div>
         <div className="sm:hidden block">
-          <Button text="" onClick={() => {}} plus={true} />
+          <Button
+            text=""
+            onClick={() => {}}
+            plus={true}
+            disabled={board.length > 0 && false}
+          />
         </div>
         <Image src={dots} alt="dots" className="h-5" />
       </div>

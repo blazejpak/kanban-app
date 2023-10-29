@@ -2,17 +2,27 @@ import mongoose from "mongoose";
 
 const boardSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  tasks: [
+  columns: [
     {
-      task: { type: String, required: true },
-      description: { type: String },
-      subtasks: [
+      nameColumn: { type: String, required: true },
+      tasks: [
         {
-          subtask: { type: String },
-          status: { type: Boolean },
+          columnId: { type: mongoose.Schema.Types.ObjectId, required: true },
+          task: { type: String, required: true },
+          description: { type: String },
+          subtasks: [
+            {
+              subtask: { type: String },
+              status: { type: Boolean },
+            },
+          ],
+          status: { type: String, required: true },
         },
       ],
-      status: { type: String, required: true },
     },
   ],
 });
+
+const Board = mongoose.models.Board || mongoose.model("Board", boardSchema);
+
+export default Board;

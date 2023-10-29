@@ -2,10 +2,12 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import activeMenuSlice from "./reducers/activeMenuSlice";
+import activeBoardSlice from "./reducers/activeBoardSlice";
 
 export const store = configureStore({
   reducer: {
     activeMenuSlice: activeMenuSlice,
+    activeBoardSlice: activeBoardSlice,
   },
 });
 
