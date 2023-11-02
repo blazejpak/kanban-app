@@ -23,6 +23,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchData = async () => {
       const boards = await getBoard();
+      console.log(boards);
       setBoard(boards);
     };
 
@@ -54,6 +55,8 @@ const Navbar = () => {
       document.removeEventListener("click", handler);
     };
   }, [window.outerWidth]);
+
+  console.log(board);
 
   return (
     <header
@@ -113,7 +116,7 @@ const Navbar = () => {
             text="+ Add New Task"
             onClick={() => {}}
             plus={false}
-            disabled={board.length > 0 && false}
+            disabled={board?.length > 0 && false}
           />
         </div>
         <div className="sm:hidden block">
@@ -121,7 +124,7 @@ const Navbar = () => {
             text=""
             onClick={() => {}}
             plus={true}
-            disabled={board.length > 0 && false}
+            disabled={board?.length > 0 && false}
           />
         </div>
         <Image src={dots} alt="dots" className="h-5" />
