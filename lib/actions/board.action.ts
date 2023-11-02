@@ -20,7 +20,13 @@ export async function getBoard() {
     await connectToDB();
 
     const boards = await Board.find();
-    return boards;
+    const simpleBoard = boards.map((data) => ({
+      _id: data._id.toString(),
+      name: data.name,
+      columns: data.columns,
+    }));
+
+    return simpleBoard;
   } catch (error: any) {
     throw new Error("Error creating Board " + error);
   }
