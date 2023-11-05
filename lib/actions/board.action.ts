@@ -3,12 +3,22 @@
 import Board from "../models/board.model";
 import { connectToDB } from "../mongoose";
 
-export async function createBoard(name: string) {
+export async function createBoard(name: string, ...columnName: any) {
   try {
     await connectToDB();
 
+    console.log(columnName);
+
+    const formattedColumns = columnName.map((name: any) => ({
+      nameColumn: name,
+    }));
+    // Tworzenie pojedynczego obiektu z właściwymi kolumnami
+    const columnsObject = { columns: formattedColumns };
+
+    // TODO
     await Board.create({
       name,
+      ...columnsObject,
     });
   } catch (error: any) {
     throw new Error("Error creating Board " + error);

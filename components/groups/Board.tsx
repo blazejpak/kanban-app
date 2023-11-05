@@ -6,7 +6,7 @@ const Board = () => {
   const data = useAppSelector((state) => state.dataSlice.data);
 
   return (
-    <>
+    <div>
       <h2 className="uppercase tracking-wide text-xs p-5">All boards</h2>
       <ul>
         {data.map((link) => (
@@ -15,7 +15,7 @@ const Board = () => {
           </li>
         ))}
       </ul>
-    </>
+    </div>
   );
 };
 

@@ -24,7 +24,7 @@ const ButtonLink = ({ text, active }: Props) => {
     <div
       className={`${
         boardActive === active && "bg-[#635FC7]"
-      } text-white  px-4 py-2 sm:py-4 rounded-3xl flex justify-center items-center font-bold hover:bg-[#A8A4FF] transition-all cursor-pointer`}
+      } text-white  px-4 py-2 sm:py-4 rounded-tr-3xl rounded-br-3xl flex  items-center font-bold hover:bg-[#A8A4FF] transition-all cursor-pointer w-[95%] gap-4`}
       onClick={activeBoardHandler}
     >
       <Image src={logo} width={16} alt={text} />
