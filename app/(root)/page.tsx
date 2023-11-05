@@ -6,13 +6,25 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect } from "react";
 
 export default function Home() {
-  const data = useAppSelector((state) => state.dataSlice.data);
   const dispatch = useAppDispatch();
+  const activePage = useAppSelector(
+    (state) => state.activeBoardSlice.activeBoard
+  );
+
+  const pageLocal = localStorage.getItem("activePage");
 
   useEffect(() => {
     const fetchData = async () => {
       const boards = await getBoard();
+
       dispatch({ type: "dataDB/getData", payload: boards });
+
+      if (boards.length > 0 && !activePage && !pageLocal) {
+        dispatch({ type: "activeBoard/payloadBoard", payload: boards[0]._id });
+      }
+      if (pageLocal) {
+        dispatch({ type: "activeBoard/payloadBoard", payload: pageLocal });
+      }
     };
 
     fetchData();

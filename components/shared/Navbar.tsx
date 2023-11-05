@@ -18,6 +18,9 @@ import { useEffect, useRef, useState } from "react";
 
 const Navbar = () => {
   const data = useAppSelector((state) => state.dataSlice.data);
+  const activePage = useAppSelector(
+    (state) => state.activeBoardSlice.activeBoard
+  );
   const isActive = useAppSelector((state) => state.activeMenuSlice.isActive);
   const dispatch = useAppDispatch();
 
@@ -79,7 +82,9 @@ const Navbar = () => {
             isActive && "sm:pl-[200px] lg:pl-[200px]"
           }`}
         >
-          Platform Launch
+          {data.length === 0
+            ? ""
+            : data.find((item) => item._id === activePage).name}
         </h1>
 
         {/* Activation menu for mobiles */}
@@ -87,7 +92,11 @@ const Navbar = () => {
           className="flex items-center gap-2 sm:hidden cursor-pointer"
           onClick={() => dispatch({ type: "activeMenu/toggleMenu" })}
         >
-          <h1 className="sm:text-xl text-lg font-bold">Platform Launch</h1>
+          <h1 className="sm:text-xl text-lg font-bold">
+            {data.length === 0
+              ? ""
+              : data.find((item) => item._id === activePage).name}
+          </h1>
 
           {isActive ? (
             <Image src={menuActive} width={10} alt="chevron up" />

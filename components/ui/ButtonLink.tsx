@@ -16,6 +16,8 @@ const ButtonLink = ({ text, active }: Props) => {
 
   const activeBoardHandler = () => {
     dispatch({ type: "activeBoard/payloadBoard", payload: active });
+    localStorage.removeItem("activePage");
+    localStorage.setItem("activePage", active);
   };
 
   return (
