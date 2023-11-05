@@ -2,21 +2,21 @@
 
 import Button from "@/components/ui/Button";
 import { getBoard } from "@/lib/actions/board.action";
-import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect } from "react";
 
 export default function Home() {
-  const [board, setBoard] = useState<Array<any>>([]);
+  const data = useAppSelector((state) => state.dataSlice.data);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       const boards = await getBoard();
-      setBoard(boards);
+      dispatch({ type: "dataDB/getData", payload: boards });
     };
 
     fetchData();
   }, []);
-
-  console.log(board);
 
   return (
     <section className="min-h-full flex flex-col justify-center items-center gap-4 text-center ">

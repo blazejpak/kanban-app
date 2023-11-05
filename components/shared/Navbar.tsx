@@ -15,21 +15,9 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import Board from "../groups/Board";
 import ThemeSwitcher from "../theme/ThemeSwitcher";
 import { useEffect, useRef, useState } from "react";
-import { getBoard } from "@/lib/actions/board.action";
 
 const Navbar = () => {
-  const [board, setBoard] = useState<Array<any>>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const boards = await getBoard();
-      console.log(boards);
-      setBoard(boards);
-    };
-
-    fetchData();
-  }, []);
-
+  const data = useAppSelector((state) => state.dataSlice.data);
   const isActive = useAppSelector((state) => state.activeMenuSlice.isActive);
   const dispatch = useAppDispatch();
 
@@ -55,8 +43,6 @@ const Navbar = () => {
       document.removeEventListener("click", handler);
     };
   }, [window.outerWidth]);
-
-  console.log(board);
 
   return (
     <header
@@ -116,7 +102,7 @@ const Navbar = () => {
             text="+ Add New Task"
             onClick={() => {}}
             plus={false}
-            disabled={board?.length > 0 && false}
+            disabled={data?.length > 0 && false}
           />
         </div>
         <div className="sm:hidden block">
@@ -124,7 +110,7 @@ const Navbar = () => {
             text=""
             onClick={() => {}}
             plus={true}
-            disabled={board?.length > 0 && false}
+            disabled={data?.length > 0 && false}
           />
         </div>
         <Image src={dots} alt="dots" className="h-5" />

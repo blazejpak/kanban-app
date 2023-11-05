@@ -18,8 +18,6 @@ const ButtonLink = ({ text, active }: Props) => {
     dispatch({ type: "activeBoard/payloadBoard", payload: active });
   };
 
-  console.log(boardActive);
-
   return (
     <div
       className={`${
