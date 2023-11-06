@@ -7,7 +7,7 @@ const Board = () => {
 
   return (
     <div>
-      <h2 className="uppercase tracking-wide text-xs p-5">All boards</h2>
+      <h2 className="uppercase tracking-wide text-xs p-5 ">All boards</h2>
       <ul>
         {data.map((link) => (
           <li key={link._id}>

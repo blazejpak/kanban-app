@@ -16,18 +16,17 @@ export default function Home() {
   );
 
   const pageLocal = localStorage.getItem("activePage");
-
+  console.log();
   useEffect(() => {
     const fetchData = async () => {
-      const boards = await getBoard();
-      console.log(boards);
-
+      const boards: any = await getBoard();
       dispatch({ type: "dataDB/getData", payload: boards });
 
-      if (boards.length > 0 && !activePage && !pageLocal) {
+      if (boards.find((item: any) => item._id === pageLocal) === undefined) {
         dispatch({ type: "activeBoard/payloadBoard", payload: boards[0]._id });
-      }
-      if (pageLocal) {
+      } else if (boards.length > 0 && !activePage && !pageLocal) {
+        dispatch({ type: "activeBoard/payloadBoard", payload: boards[0]._id });
+      } else if (pageLocal) {
         dispatch({ type: "activeBoard/payloadBoard", payload: pageLocal });
       }
     };
@@ -69,13 +68,15 @@ export default function Home() {
 
   const element = document.querySelector<any>("html");
   if (activeDiv) {
-    // element.style.opacity = "60%";
     element.style.pointerEvents = "none";
   }
   if (!activeDiv) {
-    // element.style.opacity = "100%";
     element.style.pointerEvents = "auto";
   }
+
+  const resetDivHandler = () => {
+    setActiveDiv(false);
+  };
 
   return (
     <section className="min-h-full flex flex-col justify-center items-center gap-4 text-center relative ">
@@ -94,7 +95,7 @@ export default function Home() {
           {/* For new Board */}
           <div className="flex flex-col w-full h-full">
             <h3 className="text-lg font-bold mb-6">Add New Board</h3>
-            <FormBoard />
+            <FormBoard resetDiv={resetDivHandler} />
           </div>
         </div>
       )}

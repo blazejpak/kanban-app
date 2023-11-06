@@ -7,15 +7,12 @@ export async function createBoard(name: string, ...columnName: any) {
   try {
     await connectToDB();
 
-    console.log(columnName);
-
     const formattedColumns = columnName.map((name: any) => ({
       nameColumn: name,
     }));
-    // Tworzenie pojedynczego obiektu z właściwymi kolumnami
+
     const columnsObject = { columns: formattedColumns };
 
-    // TODO
     await Board.create({
       name,
       ...columnsObject,
@@ -25,16 +22,26 @@ export async function createBoard(name: string, ...columnName: any) {
   }
 }
 
+interface Column {
+  nameColumn: string;
+  tasks: Array<any>;
+}
+
 export async function getBoard() {
   try {
     await connectToDB();
 
     const boards = await Board.find();
-    const simpleBoard = boards.map((data) => ({
-      _id: data._id.toString(),
-      name: data.name,
-      columns: data.columns,
-    }));
+    const simpleBoard = boards.map((data) => {
+      return {
+        _id: data._id.toString(),
+        name: data.name,
+        columns: data.columns.map((column: Column) => ({
+          nameColumn: column.nameColumn || null,
+          tasks: column.tasks.map((task) => {}),
+        })),
+      };
+    });
 
     return simpleBoard;
   } catch (error: any) {

@@ -4,9 +4,12 @@ import Image from "next/image";
 import { useState } from "react";
 
 import removeIcon from "@/public/assets/icon-cross.svg";
-import { createBoard } from "@/lib/actions/board.action";
+import { createBoard, getBoard } from "@/lib/actions/board.action";
+import { useAppDispatch } from "@/store/hooks";
 
-const FormBoard = () => {
+const FormBoard = ({ resetDiv }: any) => {
+  const dispatch = useAppDispatch();
+
   const [columns, setColumns] = useState<Array<any>>([
     { name: "Todo", id: Math.random() },
     { name: "Doing", id: Math.random() },
@@ -33,6 +36,9 @@ const FormBoard = () => {
     const columnsName = columns.map((column) => column.name);
     console.log(columnsName);
     await createBoard(boardName, ...columnsName);
+    const boards: any = await getBoard();
+    dispatch({ type: "dataDB/getData", payload: boards });
+    resetDiv();
   };
 
   return (

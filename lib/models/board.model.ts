@@ -5,9 +5,9 @@ const boardSchema = new mongoose.Schema({
   columns: [
     {
       nameColumn: { type: String, required: true },
+
       tasks: [
         {
-          columnId: { type: mongoose.Schema.Types.ObjectId, required: true },
           task: { type: String, required: true },
           description: { type: String },
           subtasks: [

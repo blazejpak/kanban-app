@@ -47,6 +47,10 @@ const Navbar = () => {
     };
   }, [window.outerWidth]);
 
+  const boardName = data.find((item: any) => item._id === activePage)
+    ? data.find((item: any) => item._id === activePage)?.name
+    : "";
+
   return (
     <header
       ref={backdropRef}
@@ -82,9 +86,7 @@ const Navbar = () => {
             isActive && "sm:pl-[200px] lg:pl-[200px]"
           }`}
         >
-          {data.length === 0
-            ? ""
-            : data.find((item) => item._id === activePage).name}
+          {data.length === 0 ? "" : boardName}
         </h1>
 
         {/* Activation menu for mobiles */}
@@ -93,9 +95,7 @@ const Navbar = () => {
           onClick={() => dispatch({ type: "activeMenu/toggleMenu" })}
         >
           <h1 className="sm:text-xl text-lg font-bold">
-            {data.length === 0
-              ? ""
-              : data.find((item) => item._id === activePage).name}
+            {data.length === 0 ? "" : boardName}
           </h1>
 
           {isActive ? (

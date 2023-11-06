@@ -18,8 +18,8 @@ const LeftBar = () => {
   return (
     <section className="relative min-h-screen">
       {isActive && (
-        <nav className="hidden sm:flex w-64 bg-[#fff] h-screen z-30 sticky border-r-[1px] dark:border-[#3E3F4E] border-[#E4EBFA] dark:bg-[#2B2C37] flex-col justify-between">
-          <div className="flex flex-col gap-14">
+        <nav className="hidden sm:flex w-64 bg-[#fff] h-full z-30 sticky border-r-[1px] dark:border-[#3E3F4E] border-[#E4EBFA] dark:bg-[#2B2C37] flex-col justify-between">
+          <div className="flex flex-col gap-14 ">
             <div className="pt-9 pl-7">
               <Image
                 src={logoDark}
