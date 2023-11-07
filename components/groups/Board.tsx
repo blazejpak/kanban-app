@@ -6,8 +6,10 @@ const Board = () => {
   const data = useAppSelector((state) => state.dataSlice.data);
 
   return (
-    <div>
-      <h2 className="uppercase tracking-wide text-xs p-5 ">All boards</h2>
+    <div className=" sm:h-[60vh] overflow-auto">
+      <h2 className=" uppercase font-bold tracking-widest text-xs p-5 ">
+        All boards ({data.length})
+      </h2>
       <ul>
         {data.map((link) => (
           <li key={link._id}>

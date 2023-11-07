@@ -53,7 +53,7 @@ const FormBoard = ({ resetDiv }: any) => {
     >
       <div className="flex flex-col gap-4">
         <div>
-          <label className="font-bold text-xs">Board Name</label>
+          <label className="font-bold text-xs text-[#828FA3]">Board Name</label>
           <input
             type="text"
             className="w-full h-10 bg-inherit border border-[#828FA340] rounded-lg outline-none p-4"
@@ -63,7 +63,9 @@ const FormBoard = ({ resetDiv }: any) => {
           />
         </div>
         <div>
-          <label className="font-bold text-xs">Board Columns</label>
+          <label className="font-bold text-xs text-[#828FA3]">
+            Board Columns
+          </label>
           <div className="flex flex-col gap-2 max-h-[140px] overflow-y-auto">
             {columns.map((item) => {
               return (
@@ -114,7 +116,7 @@ const FormBoard = ({ resetDiv }: any) => {
       <div className="flex flex-col gap-4">
         <button
           type="button"
-          className="bg-[#635FC71A] dark:bg-white dark:text-[#635FC7] text-white  px-4 py-2 sm:py-4 rounded-3xl flex justify-center items-center font-bold dark:hover:bg-white/75 hover:bg-[#635FC740] transition-all w-full"
+          className="bg-[#635FC71A] dark:bg-white text-[#635FC7]   px-4 py-2 sm:py-4 rounded-3xl flex justify-center items-center font-bold dark:hover:bg-white/75 hover:bg-[#635FC740] transition-all w-full"
           onClick={newColumnHandle}
         >
           + Add New Column

@@ -28,7 +28,13 @@ const ButtonLink = ({ text, active }: Props) => {
       onClick={activeBoardHandler}
     >
       <Image src={logo} width={16} alt={text} />
-      <p>{text}</p>
+      <p
+        className={`${
+          boardActive === active && "text-white"
+        } first-letter:uppercase dark:text-white text-[#828FA3]`}
+      >
+        {text}
+      </p>
     </div>
   );
 };

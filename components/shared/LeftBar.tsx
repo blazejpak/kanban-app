@@ -25,7 +25,7 @@ const LeftBar = () => {
       {isActiveMenu && (
         <nav
           className={`${
-            isActiveForm && "grayscale-[50%]"
+            isActiveForm && "brightness-50"
           } hidden sm:flex w-64 bg-[#fff] h-full z-30 sticky border-r-[1px] dark:border-[#3E3F4E] border-[#E4EBFA] dark:bg-[#2B2C37] flex-col justify-between`}
         >
           <div className="flex flex-col gap-14 ">

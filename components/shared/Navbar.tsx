@@ -26,38 +26,12 @@ const Navbar = () => {
   );
   const dispatch = useAppDispatch();
 
-  const backdropRef = useRef<HTMLElement | any>();
-
-  useEffect(() => {
-    const handler = (event: MouseEvent) => {
-      if (window.outerWidth <= 640) {
-        if (!backdropRef.current) return;
-        // if (!isActive) return;
-
-        if (!backdropRef.current.contains(event.target) && isActiveMenu) {
-          dispatch({ type: "activeMenu/toggleMenu" });
-          event.stopPropagation();
-        }
-      }
-      return;
-    };
-
-    document.addEventListener("click", handler, true);
-
-    return () => {
-      document.removeEventListener("click", handler);
-    };
-  }, [window.outerWidth]);
-
   const boardName = data.find((item: any) => item._id === activePage)
     ? data.find((item: any) => item._id === activePage)?.name
     : "";
 
   return (
-    <header
-      ref={backdropRef}
-      className="h-16 sm:h-20 xl:h-24 w-full bg-white dark:bg-[#2B2C37] flex justify-between items-center dark:border-b dark:border-[#3E3F4E] px-[5%] fixed z-20"
-    >
+    <header className="h-16 sm:h-20 xl:h-24 w-full bg-white dark:bg-[#2B2C37] flex justify-between items-center dark:border-b dark:border-[#3E3F4E] px-[5%] fixed z-20">
       <div className="flex sm:gap-6 gap-4 h-full items-center">
         <div className={`hidden  ${!isActiveMenu && "sm:block"}`}>
           <Image
@@ -129,16 +103,21 @@ const Navbar = () => {
 
       {/* Mobile menu container */}
       {isActiveMenu && (
-        <nav
-          ref={backdropRef}
-          className="text-[#828FA3] sm:hidden w-64 h-96 top-[110%] rounded-lg bg-[#fff] dark:bg-[#2B2C37] absolute flex flex-col justify-between pb-4"
-        >
-          {/* TODO */}
-          <Board />
-          <div className="self-center">
-            <ThemeSwitcher />
-          </div>
-        </nav>
+        <>
+          <div
+            className="absolute h-screen z-10 w-full top-[100%] left-0 sm:hidden"
+            onClick={() => {
+              dispatch({ type: "activeMenu/toggleMenu" });
+            }}
+          ></div>
+          <nav className="text-[#828FA3] z-20 sm:hidden w-64 min-h-96  top-[110%] rounded-lg bg-[#fff] dark:bg-[#2B2C37] absolute flex flex-col justify-between pb-4">
+            {/* TODO */}
+            <Board />
+            <div className="self-center">
+              <ThemeSwitcher />
+            </div>
+          </nav>
+        </>
       )}
     </header>
   );

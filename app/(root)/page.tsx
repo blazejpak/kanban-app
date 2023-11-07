@@ -86,7 +86,9 @@ export default function Home() {
   };
 
   return (
-    <section className="min-h-full flex flex-col justify-center items-center gap-4 text-center relative ">
+    <section
+      className={`min-h-full flex flex-col justify-center items-center gap-4 text-center relative  `}
+    >
       <h2 className="text-lg font-bold text-[#828FA3] ">{infoParagraph}</h2>
       <Button
         onClick={() => {
@@ -100,12 +102,12 @@ export default function Home() {
       {activeDiv && (
         <>
           <div
-            className={`h-full z-30 w-full absolute backdrop-grayscale-[50%]`}
+            className={`h-full z-30 w-full absolute backdrop-brightness-50`}
           ></div>
           <div
             className={`${
               activeMenu && "sm:translate-x-[-100px] md:translate-x-[0]"
-            } z-40 absolute h-fit w-[340px] sm:w-[480px] bg-white/30 dark:bg-[#2B2C37]  opacity-100 pointer-events-auto text-start p-8`}
+            } z-40 absolute h-fit w-[340px] sm:w-[480px] bg-white dark:bg-[#2B2C37]  opacity-100 pointer-events-auto text-start p-8 rounded-md`}
             ref={backdropRef}
           >
             {/* For new Board */}
