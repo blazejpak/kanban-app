@@ -12,13 +12,22 @@ import Board from "../groups/Board";
 import ThemeSwitcher from "../theme/ThemeSwitcher";
 
 const LeftBar = () => {
-  const isActive = useAppSelector((state) => state.activeMenuSlice.isActive);
+  const isActiveMenu = useAppSelector(
+    (state) => state.activeMenuSlice.isActiveMenu
+  );
+  const isActiveForm = useAppSelector(
+    (state) => state.activeMenuSlice.isActiveForm
+  );
   const dispatch = useAppDispatch();
 
   return (
     <section className="relative min-h-screen">
-      {isActive && (
-        <nav className="hidden sm:flex w-64 bg-[#fff] h-full z-30 sticky border-r-[1px] dark:border-[#3E3F4E] border-[#E4EBFA] dark:bg-[#2B2C37] flex-col justify-between">
+      {isActiveMenu && (
+        <nav
+          className={`${
+            isActiveForm && "grayscale-[50%]"
+          } hidden sm:flex w-64 bg-[#fff] h-full z-30 sticky border-r-[1px] dark:border-[#3E3F4E] border-[#E4EBFA] dark:bg-[#2B2C37] flex-col justify-between`}
+        >
           <div className="flex flex-col gap-14 ">
             <div className="pt-9 pl-7">
               <Image
@@ -56,7 +65,7 @@ const LeftBar = () => {
       {/* hide bar */}
       <div
         className={`${
-          isActive && "sm:hidden"
+          isActiveMenu && "sm:hidden"
         } hidden bottom-[2.5rem] absolute h-12 w-14 bg-[#635FC7] cursor-pointer sm:flex justify-center items-center rounded-tr-3xl rounded-br-3xl z-40`}
         onClick={() => dispatch({ type: "activeMenu/toggleMenu" })}
       >

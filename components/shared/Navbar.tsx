@@ -21,7 +21,9 @@ const Navbar = () => {
   const activePage = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard
   );
-  const isActive = useAppSelector((state) => state.activeMenuSlice.isActive);
+  const isActiveMenu = useAppSelector(
+    (state) => state.activeMenuSlice.isActiveMenu
+  );
   const dispatch = useAppDispatch();
 
   const backdropRef = useRef<HTMLElement | any>();
@@ -32,7 +34,7 @@ const Navbar = () => {
         if (!backdropRef.current) return;
         // if (!isActive) return;
 
-        if (!backdropRef.current.contains(event.target) && isActive) {
+        if (!backdropRef.current.contains(event.target) && isActiveMenu) {
           dispatch({ type: "activeMenu/toggleMenu" });
           event.stopPropagation();
         }
@@ -57,7 +59,7 @@ const Navbar = () => {
       className="h-16 sm:h-20 xl:h-24 w-full bg-white dark:bg-[#2B2C37] flex justify-between items-center dark:border-b dark:border-[#3E3F4E] px-[5%] fixed z-20"
     >
       <div className="flex sm:gap-6 gap-4 h-full items-center">
-        <div className={`hidden  ${!isActive && "sm:block"}`}>
+        <div className={`hidden  ${!isActiveMenu && "sm:block"}`}>
           <Image
             src={logoDark}
             alt="logo"
@@ -82,8 +84,8 @@ const Navbar = () => {
         <div className="hidden sm:block h-full w-[1px] dark:bg-[#3E3F4E] bg-[#E4EBFA]"></div>
 
         <h1
-          className={`sm:text-xl hidden sm:block font-bold ${
-            isActive && "sm:pl-[200px] lg:pl-[200px]"
+          className={`sm:text-xl hidden sm:block font-bold uppercase ${
+            isActiveMenu && "sm:pl-[200px] lg:pl-[200px]"
           }`}
         >
           {data.length === 0 ? "" : boardName}
@@ -94,11 +96,11 @@ const Navbar = () => {
           className="flex items-center gap-2 sm:hidden cursor-pointer"
           onClick={() => dispatch({ type: "activeMenu/toggleMenu" })}
         >
-          <h1 className="sm:text-xl text-lg font-bold">
+          <h1 className="sm:text-xl text-lg font-bold uppercase">
             {data.length === 0 ? "" : boardName}
           </h1>
 
-          {isActive ? (
+          {isActiveMenu ? (
             <Image src={menuActive} width={10} alt="chevron up" />
           ) : (
             <Image src={menuInActive} width={10} alt="chevron down" />
@@ -126,7 +128,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu container */}
-      {isActive && (
+      {isActiveMenu && (
         <nav
           ref={backdropRef}
           className="text-[#828FA3] sm:hidden w-64 h-96 top-[110%] rounded-lg bg-[#fff] dark:bg-[#2B2C37] absolute flex flex-col justify-between pb-4"

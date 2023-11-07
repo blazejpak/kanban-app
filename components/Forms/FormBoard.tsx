@@ -10,6 +10,8 @@ import { useAppDispatch } from "@/store/hooks";
 const FormBoard = ({ resetDiv }: any) => {
   const dispatch = useAppDispatch();
 
+  const [fillColumnError, setFillColumnError] = useState<boolean>(false);
+
   const [columns, setColumns] = useState<Array<any>>([
     { name: "Todo", id: Math.random() },
     { name: "Doing", id: Math.random() },
@@ -18,8 +20,11 @@ const FormBoard = ({ resetDiv }: any) => {
 
   const newColumnHandle = () => {
     const newColumn = { name: "", id: Math.random() };
-    if (columns.find((column) => column.name === "")) return;
-    else {
+    if (columns.find((column) => column.name === "")) {
+      setFillColumnError(true);
+      return;
+    } else {
+      setFillColumnError(false);
       setColumns([...columns, newColumn]);
     }
   };
@@ -63,21 +68,36 @@ const FormBoard = ({ resetDiv }: any) => {
             {columns.map((item) => {
               return (
                 <div key={item.id} className="flex items-center gap-4">
-                  <input
-                    type="text"
-                    className="w-full h-10 bg-inherit border border-[#828FA340] rounded-lg outline-none p-4"
-                    value={item.name}
-                    onChange={(e) => {
-                      const newName = e.target.value;
-                      const updatedColumns = columns.map((column) => {
-                        if (column.id === item.id) {
-                          column.name = newName;
-                        }
-                        return column;
-                      });
-                      setColumns(updatedColumns);
-                    }}
-                  />
+                  <div className="w-full relative">
+                    {fillColumnError && !item.name ? (
+                      <p
+                        className={`${
+                          fillColumnError && !item.name
+                        } absolute right-6 top-[50%] text-red-600 text-xs translate-y-[-50%]`}
+                      >
+                        Can't be empty
+                      </p>
+                    ) : null}
+                    <input
+                      type="text"
+                      className={`${
+                        fillColumnError && !item.name
+                          ? "border-red-600"
+                          : "border-[#828FA340]"
+                      } w-full h-10 bg-inherit border  rounded-lg outline-none p-4`}
+                      value={item.name}
+                      onChange={(e) => {
+                        const newName = e.target.value;
+                        const updatedColumns = columns.map((column) => {
+                          if (column.id === item.id) {
+                            column.name = newName;
+                          }
+                          return column;
+                        });
+                        setColumns(updatedColumns);
+                      }}
+                    />
+                  </div>
                   <div
                     onClick={() => removeColumn(item.id)}
                     className="cursor-pointer mr-2"

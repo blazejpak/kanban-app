@@ -14,6 +14,12 @@ export default function Home() {
   const activePage = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard
   );
+  const activeForm = useAppSelector(
+    (state) => state.activeMenuSlice.isActiveForm
+  );
+  const activeMenu = useAppSelector(
+    (state) => state.activeMenuSlice.isActiveMenu
+  );
 
   const pageLocal = localStorage.getItem("activePage");
   console.log();
@@ -53,6 +59,7 @@ export default function Home() {
 
         if (!backdropRef.current.contains(event.target) && activeDiv) {
           setActiveDiv(false);
+          dispatch({ type: "activeMenu/toggleForm" });
           event.stopPropagation();
         }
       }
@@ -82,22 +89,32 @@ export default function Home() {
     <section className="min-h-full flex flex-col justify-center items-center gap-4 text-center relative ">
       <h2 className="text-lg font-bold text-[#828FA3] ">{infoParagraph}</h2>
       <Button
-        onClick={() => setActiveDiv((state) => !state)}
+        onClick={() => {
+          dispatch({ type: "activeMenu/toggleForm" });
+          setActiveDiv((state) => !state);
+        }}
         text={textButton}
         plus={false}
         disabled={false}
       />
       {activeDiv && (
-        <div
-          className="absolute min-h-[430px] w-[480px] bg-white/30 dark:bg-[#2B2C37]  opacity-100 pointer-events-auto text-start p-8"
-          ref={backdropRef}
-        >
-          {/* For new Board */}
-          <div className="flex flex-col w-full h-full">
-            <h3 className="text-lg font-bold mb-6">Add New Board</h3>
-            <FormBoard resetDiv={resetDivHandler} />
+        <>
+          <div
+            className={`h-full z-30 w-full absolute backdrop-grayscale-[50%]`}
+          ></div>
+          <div
+            className={`${
+              activeMenu && "sm:translate-x-[-100px] md:translate-x-[0]"
+            } z-40 absolute h-fit w-[340px] sm:w-[480px] bg-white/30 dark:bg-[#2B2C37]  opacity-100 pointer-events-auto text-start p-8`}
+            ref={backdropRef}
+          >
+            {/* For new Board */}
+            <div className="flex flex-col w-full h-full">
+              <h3 className="text-lg font-bold mb-6">Add New Board</h3>
+              <FormBoard resetDiv={resetDivHandler} />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </section>
   );
