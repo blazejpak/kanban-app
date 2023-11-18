@@ -22,7 +22,7 @@ export default function Home() {
   );
 
   const pageLocal = localStorage.getItem("activePage");
-  console.log();
+
   useEffect(() => {
     const fetchData = async () => {
       const boards: any = await getBoard();
@@ -107,8 +107,7 @@ export default function Home() {
           <div
             className={`${
               activeMenu && "sm:translate-x-[-100px] md:translate-x-[0]"
-            } z-40 absolute h-fit w-[340px] sm:w-[480px] bg-white dark:bg-[#2B2C37]  opacity-100 pointer-events-auto text-start p-8 rounded-md`}
-            ref={backdropRef}
+            } z-40 absolute h-fit w-[340px] sm:w-[480px] bg-white dark:bg-[#2B2C37]  opacity-100 pointer-events-auto text-start p-8 rounded-md`} 
           >
             {/* For new Board */}
             <div className="flex flex-col w-full h-full">
