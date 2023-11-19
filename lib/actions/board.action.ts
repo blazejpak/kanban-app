@@ -22,6 +22,21 @@ export async function createBoard(name: string, ...columnName: any) {
   }
 }
 
+export async function addNewColumn(id: string, column: string) {
+  try {
+    await connectToDB();
+
+    const findBoard = await Board.findById(id);
+    console.log(findBoard);
+    console.log(column);
+    findBoard.columns.push({ nameColumn: column });
+
+    await findBoard.save();
+  } catch (error: any) {
+    throw new Error("Error creating Board " + error);
+  }
+}
+
 interface Column {
   nameColumn: string;
   tasks: Array<any>;

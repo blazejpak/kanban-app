@@ -1,6 +1,8 @@
 "use client";
 
 import FormBoard from "@/components/Forms/FormBoard";
+import AddBoard from "@/components/groups/AddBoard";
+import AddColumn from "@/components/groups/AddColumn";
 import Button from "@/components/ui/Button";
 import { getBoard } from "@/lib/actions/board.action";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -12,13 +14,10 @@ export default function Home() {
 
   const dispatch = useAppDispatch();
   const activePage = useAppSelector(
-    (state) => state.activeBoardSlice.activeBoard
-  );
-  const activeForm = useAppSelector(
-    (state) => state.activeMenuSlice.isActiveForm
+    (state) => state.activeBoardSlice.activeBoard,
   );
   const activeMenu = useAppSelector(
-    (state) => state.activeMenuSlice.isActiveMenu
+    (state) => state.activeMenuSlice.isActiveMenu,
   );
 
   const pageLocal = localStorage.getItem("activePage");
@@ -87,7 +86,7 @@ export default function Home() {
 
   return (
     <section
-      className={`min-h-full flex flex-col justify-center items-center gap-4 text-center relative  `}
+      className={`relative  flex min-h-full flex-col items-center justify-center gap-4 text-center  `}
     >
       <h2 className="text-lg font-bold text-[#828FA3] ">{infoParagraph}</h2>
       <Button
@@ -102,19 +101,21 @@ export default function Home() {
       {activeDiv && (
         <>
           <div
-            className={`h-full z-30 w-full absolute backdrop-brightness-50`}
+            className={`absolute z-30 h-full w-full backdrop-brightness-50`}
           ></div>
-          <div
-            className={`${
-              activeMenu && "sm:translate-x-[-100px] md:translate-x-[0]"
-            } z-40 absolute h-fit w-[340px] sm:w-[480px] bg-white dark:bg-[#2B2C37]  opacity-100 pointer-events-auto text-start p-8 rounded-md`} 
-          >
-            {/* For new Board */}
-            <div className="flex flex-col w-full h-full">
-              <h3 className="text-lg font-bold mb-6">Add New Board</h3>
-              <FormBoard resetDiv={resetDivHandler} />
-            </div>
-          </div>
+          {data.length === 0 ? (
+            <AddBoard
+              activeMenu={activeMenu}
+              backdropRef={backdropRef}
+              resetDivHandler={resetDivHandler}
+            />
+          ) : (
+            <AddColumn
+              activeMenu={activeMenu}
+              backdropRef={backdropRef}
+              resetDivHandler={resetDivHandler}
+            />
+          )}
         </>
       )}
     </section>
