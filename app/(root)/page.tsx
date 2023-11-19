@@ -1,15 +1,14 @@
 "use client";
 
-import FormBoard from "@/components/Forms/FormBoard";
 import AddBoard from "@/components/groups/AddBoard";
 import AddColumn from "@/components/groups/AddColumn";
+import DeleteBoard from "@/components/groups/DeleteBoard";
 import Button from "@/components/ui/Button";
 import { getBoard } from "@/lib/actions/board.action";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
-  const [activeDiv, setActiveDiv] = useState<boolean>(false);
   const backdropRef = useRef<HTMLElement | any>();
 
   const dispatch = useAppDispatch();
@@ -18,6 +17,13 @@ export default function Home() {
   );
   const activeMenu = useAppSelector(
     (state) => state.activeMenuSlice.isActiveMenu,
+  );
+  const activeForm = useAppSelector(
+    (state) => state.activeMenuSlice.isActiveForm,
+  );
+  const typeForm = useAppSelector((state) => state.activeMenuSlice.whatType);
+  const deleteBoard = useAppSelector(
+    (state) => state.activeMenuSlice.deleteBoard,
   );
 
   const pageLocal = localStorage.getItem("activePage");
@@ -52,12 +58,9 @@ export default function Home() {
 
   useEffect(() => {
     const handler = (event: MouseEvent) => {
-      if (activeDiv) {
+      if (activeForm) {
         if (!backdropRef.current) return;
-        // if (!isActive) return;
-
-        if (!backdropRef.current.contains(event.target) && activeDiv) {
-          setActiveDiv(false);
+        else if (!backdropRef.current.contains(event.target) && activeForm) {
           dispatch({ type: "activeMenu/toggleForm" });
           event.stopPropagation();
         }
@@ -70,18 +73,18 @@ export default function Home() {
     return () => {
       document.removeEventListener("click", handler);
     };
-  }, [activeDiv]);
+  }, [activeForm]);
 
   const element = document.querySelector<any>("html");
-  if (activeDiv) {
+  if (activeForm || deleteBoard) {
     element.style.pointerEvents = "none";
   }
-  if (!activeDiv) {
+  if (!activeForm && !deleteBoard) {
     element.style.pointerEvents = "auto";
   }
 
   const resetDivHandler = () => {
-    setActiveDiv(false);
+    dispatch({ type: "activeMenu/toggleForm" });
   };
 
   return (
@@ -92,18 +95,20 @@ export default function Home() {
       <Button
         onClick={() => {
           dispatch({ type: "activeMenu/toggleForm" });
-          setActiveDiv((state) => !state);
+          if (data.length === 0)
+            dispatch({ type: "activeMenu/typeForm", payload: "board" });
+          else dispatch({ type: "activeMenu/typeForm", payload: "column" });
         }}
         text={textButton}
         plus={false}
         disabled={false}
       />
-      {activeDiv && (
+      {activeForm && (
         <>
           <div
             className={`absolute z-30 h-full w-full backdrop-brightness-50`}
           ></div>
-          {data.length === 0 ? (
+          {typeForm === "board" ? (
             <AddBoard
               activeMenu={activeMenu}
               backdropRef={backdropRef}
@@ -116,6 +121,15 @@ export default function Home() {
               resetDivHandler={resetDivHandler}
             />
           )}
+        </>
+      )}
+
+      {deleteBoard && (
+        <>
+          <div
+            className={`absolute z-30 h-full w-full backdrop-brightness-50`}
+          ></div>
+          <DeleteBoard activeMenu={activeMenu} />
         </>
       )}
     </section>

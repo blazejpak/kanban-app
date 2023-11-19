@@ -29,7 +29,7 @@ export default function RootLayout({
         <ProvideStore>
           <ProvidersTheme>
             <Navbar />
-            <main className="flex flex-row">
+            <main className="flex">
               <LeftBar />
               <section className="min-h-screen w-full">{children}</section>
             </main>

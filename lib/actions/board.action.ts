@@ -27,8 +27,7 @@ export async function addNewColumn(id: string, column: string) {
     await connectToDB();
 
     const findBoard = await Board.findById(id);
-    console.log(findBoard);
-    console.log(column);
+
     findBoard.columns.push({ nameColumn: column });
 
     await findBoard.save();
@@ -59,6 +58,16 @@ export async function getBoard() {
     });
 
     return simpleBoard;
+  } catch (error: any) {
+    throw new Error("Error creating Board " + error);
+  }
+}
+
+export async function deleteBoard(id: string) {
+  try {
+    await connectToDB();
+
+    const board = await Board.findByIdAndDelete(id);
   } catch (error: any) {
     throw new Error("Error creating Board " + error);
   }
