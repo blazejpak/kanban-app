@@ -7,6 +7,7 @@ interface MenuActive {
   isActiveForm: boolean;
   whatType: string;
   deleteBoard: boolean;
+  editBoard: boolean;
 }
 
 const initialState: MenuActive = {
@@ -14,6 +15,7 @@ const initialState: MenuActive = {
   isActiveForm: false,
   whatType: "board",
   deleteBoard: false,
+  editBoard: false,
 };
 
 export const activeMenuSlice = createSlice({
@@ -32,10 +34,18 @@ export const activeMenuSlice = createSlice({
     toggleDeleteBoard: (state) => {
       state.deleteBoard = !state.deleteBoard;
     },
+    toggleEditBoard: (state) => {
+      state.editBoard = !state.editBoard;
+    },
   },
 });
 
-export const { toggleMenu, toggleForm, typeForm, toggleDeleteBoard } =
-  activeMenuSlice.actions;
+export const {
+  toggleMenu,
+  toggleForm,
+  typeForm,
+  toggleDeleteBoard,
+  toggleEditBoard,
+} = activeMenuSlice.actions;
 
 export default activeMenuSlice.reducer;

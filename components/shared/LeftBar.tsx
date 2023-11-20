@@ -21,6 +21,9 @@ const LeftBar = () => {
   const isActiveDeleteForm = useAppSelector(
     (state) => state.activeMenuSlice.deleteBoard,
   );
+  const isEditBoardActive = useAppSelector(
+    (state) => state.activeMenuSlice.editBoard,
+  );
 
   const dispatch = useAppDispatch();
 
@@ -29,7 +32,8 @@ const LeftBar = () => {
       {isActiveMenu && (
         <nav
           className={`${
-            (isActiveForm || isActiveDeleteForm) && "brightness-50"
+            (isActiveForm || isActiveDeleteForm || isEditBoardActive) &&
+            "brightness-50"
           } sticky z-30 hidden h-full w-64 flex-col justify-between border-r-[1px] border-[#E4EBFA] bg-[#fff] dark:border-[#3E3F4E] dark:bg-[#2B2C37] sm:flex`}
         >
           <div className="flex flex-col gap-14 ">

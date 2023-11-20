@@ -3,6 +3,7 @@
 import AddBoard from "@/components/groups/AddBoard";
 import AddColumn from "@/components/groups/AddColumn";
 import DeleteBoard from "@/components/groups/DeleteBoard";
+import EditBoard from "@/components/groups/EditBoard";
 import Button from "@/components/ui/Button";
 import { getBoard } from "@/lib/actions/board.action";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -25,6 +26,7 @@ export default function Home() {
   const deleteBoard = useAppSelector(
     (state) => state.activeMenuSlice.deleteBoard,
   );
+  const editBoard = useAppSelector((state) => state.activeMenuSlice.editBoard);
 
   const pageLocal = localStorage.getItem("activePage");
 
@@ -130,6 +132,18 @@ export default function Home() {
             className={`absolute z-30 h-full w-full backdrop-brightness-50`}
           ></div>
           <DeleteBoard activeMenu={activeMenu} />
+        </>
+      )}
+
+      {editBoard && (
+        <>
+          <div
+            className={`absolute z-30 h-full w-full backdrop-brightness-50`}
+          ></div>
+          <EditBoard
+            activeMenu={activeMenu}
+            resetDivHandler={resetDivHandler}
+          />
         </>
       )}
     </section>

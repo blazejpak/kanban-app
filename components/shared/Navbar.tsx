@@ -112,7 +112,15 @@ const Navbar = () => {
       {optionsActive && (
         <nav className="absolute right-4 top-[110%] z-20 h-24 w-48 rounded-lg bg-[#fff] p-4 text-[#828FA3] dark:bg-[#2B2C37] ">
           <ul className="flex h-full w-full flex-col justify-center gap-3 text-sm font-medium">
-            <li className="cursor-pointer">Edit Board</li>
+            <li
+              className="cursor-pointer"
+              onClick={() => {
+                dispatch({ type: "activeMenu/toggleEditBoard" });
+                setOptionsActive(false);
+              }}
+            >
+              Edit Board
+            </li>
             <li
               className="cursor-pointer text-red-500"
               onClick={() => {
