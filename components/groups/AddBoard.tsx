@@ -3,10 +3,9 @@ import FormBoard from "../Forms/FormBoard";
 interface Props {
   backdropRef: HTMLElement | any;
   activeMenu: boolean;
-  resetDivHandler: any;
 }
 
-const AddBoard = ({ backdropRef, activeMenu, resetDivHandler }: Props) => {
+const AddBoard = ({ backdropRef, activeMenu }: Props) => {
   return (
     <div
       ref={backdropRef}
@@ -17,7 +16,7 @@ const AddBoard = ({ backdropRef, activeMenu, resetDivHandler }: Props) => {
       {/* For new Board */}
       <div className="flex h-full w-full flex-col">
         <h3 className="mb-6 text-lg font-bold">Add New Board</h3>
-        <FormBoard resetDiv={resetDivHandler} />
+        <FormBoard />
       </div>
     </div>
   );

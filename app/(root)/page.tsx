@@ -111,11 +111,7 @@ export default function Home() {
             className={`absolute z-30 h-full w-full backdrop-brightness-50`}
           ></div>
           {typeForm === "board" ? (
-            <AddBoard
-              activeMenu={activeMenu}
-              backdropRef={backdropRef}
-              resetDivHandler={resetDivHandler}
-            />
+            <AddBoard activeMenu={activeMenu} backdropRef={backdropRef} />
           ) : (
             <AddColumn
               activeMenu={activeMenu}
@@ -140,10 +136,7 @@ export default function Home() {
           <div
             className={`absolute z-30 h-full w-full backdrop-brightness-50`}
           ></div>
-          <EditBoard
-            activeMenu={activeMenu}
-            resetDivHandler={resetDivHandler}
-          />
+          <EditBoard activeMenu={activeMenu} />
         </>
       )}
     </section>

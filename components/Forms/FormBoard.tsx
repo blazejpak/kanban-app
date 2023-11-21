@@ -7,7 +7,7 @@ import removeIcon from "@/public/assets/icon-cross.svg";
 import { createBoard, getBoard } from "@/lib/actions/board.action";
 import { useAppDispatch } from "@/store/hooks";
 
-const FormBoard = ({ resetDiv }: any) => {
+const FormBoard = () => {
   const dispatch = useAppDispatch();
 
   const [fillColumnError, setFillColumnError] = useState<boolean>(false);
@@ -40,7 +40,6 @@ const FormBoard = ({ resetDiv }: any) => {
     const boards: any = await getBoard();
     dispatch({ type: "dataDB/getData", payload: boards });
     dispatch({ type: "activeMenu/toggleForm" });
-    resetDiv();
   };
 
   return (

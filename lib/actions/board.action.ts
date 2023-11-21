@@ -72,3 +72,13 @@ export async function deleteBoard(id: string) {
     throw new Error("Error creating Board " + error);
   }
 }
+
+export async function editBoard(id: string, newBoardName: string) {
+  try {
+    await connectToDB();
+
+    await Board.updateOne({ _id: id }, { name: newBoardName });
+  } catch (error: any) {
+    throw new Error("Error creating Board " + error);
+  }
+}

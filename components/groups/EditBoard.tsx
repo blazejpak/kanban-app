@@ -4,10 +4,9 @@ import FormEditBoard from "../Forms/FormEditBoard";
 
 interface Props {
   activeMenu: boolean;
-  resetDivHandler: any;
 }
 
-const EditBoard = ({ activeMenu, resetDivHandler }: Props) => {
+const EditBoard = ({ activeMenu }: Props) => {
   const backdropRef = useRef<HTMLElement | any>();
   const isEditBoardActive = useAppSelector(
     (state) => state.activeMenuSlice.editBoard,
@@ -46,7 +45,7 @@ const EditBoard = ({ activeMenu, resetDivHandler }: Props) => {
     >
       <div className="flex h-full w-full flex-col">
         <h3 className="mb-6 text-lg font-bold">Add New Board</h3>
-        <FormEditBoard resetDiv={resetDivHandler} />
+        <FormEditBoard />
       </div>
     </div>
   );
