@@ -86,7 +86,7 @@ const FormEditBoard = () => {
       <div className="flex flex-col gap-4">
         <button
           type="submit"
-          className="flex w-full  items-center justify-center rounded-3xl bg-[#635FC7] px-4 py-2 font-bold text-white transition-all hover:bg-[#A8A4FF] sm:py-4"
+          className="flex w-full  items-center justify-center rounded-3xl bg-[#635FC7] px-4 py-2 font-bold text-white transition-all hover:bg-[#A8A4FF] "
         >
           Save Board Name
         </button>

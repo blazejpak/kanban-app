@@ -24,6 +24,7 @@ const LeftBar = () => {
   const isEditBoardActive = useAppSelector(
     (state) => state.activeMenuSlice.editBoard,
   );
+  const newTaskForm = useAppSelector((state) => state.activeMenuSlice.newTask);
 
   const dispatch = useAppDispatch();
 
@@ -32,7 +33,10 @@ const LeftBar = () => {
       {isActiveMenu && (
         <nav
           className={`${
-            (isActiveForm || isActiveDeleteForm || isEditBoardActive) &&
+            (isActiveForm ||
+              isActiveDeleteForm ||
+              isEditBoardActive ||
+              newTaskForm) &&
             "brightness-50"
           } sticky z-30 hidden h-full w-64 flex-col justify-between border-r-[1px] border-[#E4EBFA] bg-[#fff] dark:border-[#3E3F4E] dark:bg-[#2B2C37] sm:flex`}
         >
@@ -73,6 +77,12 @@ const LeftBar = () => {
       {/* show bar */}
       <div
         className={`${
+          (isActiveForm ||
+            isActiveDeleteForm ||
+            isEditBoardActive ||
+            newTaskForm) &&
+          "brightness-50"
+        } ${
           isActiveMenu && "sm:hidden"
         } absolute bottom-[2.5rem] z-40 hidden h-12 w-14 cursor-pointer items-center justify-center rounded-br-3xl rounded-tr-3xl bg-[#635FC7] sm:flex`}
         onClick={() => dispatch({ type: "activeMenu/toggleMenu" })}

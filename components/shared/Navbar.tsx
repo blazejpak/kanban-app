@@ -87,7 +87,9 @@ const Navbar = () => {
         <div className="hidden sm:block">
           <Button
             text="+ Add New Task"
-            onClick={() => {}}
+            onClick={() => {
+              dispatch({ type: "activeMenu/toggleNewTask" });
+            }}
             plus={false}
             disabled={data?.length > 0 && false}
           />
@@ -95,7 +97,9 @@ const Navbar = () => {
         <div className="block sm:hidden">
           <Button
             text=""
-            onClick={() => {}}
+            onClick={() => {
+              dispatch({ type: "activeMenu/toggleNewTask" });
+            }}
             plus={true}
             disabled={data?.length > 0 && false}
           />

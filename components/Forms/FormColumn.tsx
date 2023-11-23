@@ -77,7 +77,7 @@ const FormColumn = ({ resetDiv }: any) => {
       <div className="flex flex-col gap-4">
         <button
           type="submit"
-          className="flex w-full items-center   justify-center rounded-3xl bg-[#635FC71A] px-4 py-2 font-bold text-[#635FC7] transition-all hover:bg-[#635FC740] dark:bg-white dark:hover:bg-white/75 sm:py-4"
+          className="flex w-full items-center   justify-center rounded-3xl bg-[#635FC71A] px-4 py-2 font-bold text-[#635FC7] transition-all hover:bg-[#635FC740] dark:bg-white dark:hover:bg-white/75 "
         >
           Add New Column
         </button>
