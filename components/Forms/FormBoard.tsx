@@ -5,26 +5,28 @@ import { useState } from "react";
 
 import removeIcon from "@/public/assets/icon-cross.svg";
 import { createBoard, getBoard } from "@/lib/actions/board.action";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 const FormBoard = () => {
   const dispatch = useAppDispatch();
 
-  const [fillColumnError, setFillColumnError] = useState<boolean>(false);
+  const [fillColumnError, setFillColumnError] = useState<string>("");
+  const [fillBoardError, setFillBoardError] = useState<string>("");
 
   const [columns, setColumns] = useState<Array<any>>([
     { name: "Todo", id: Math.random() },
     { name: "Doing", id: Math.random() },
   ]);
   const [boardName, setBoardName] = useState<string>("");
+  const data = useAppSelector((state) => state.dataSlice.data);
 
   const newColumnHandle = () => {
     const newColumn = { name: "", id: Math.random() };
     if (columns.find((column) => column.name === "")) {
-      setFillColumnError(true);
+      setFillColumnError("Can't be empty.");
       return;
     } else {
-      setFillColumnError(false);
+      setFillColumnError("");
       setColumns([...columns, newColumn]);
     }
   };
@@ -35,11 +37,27 @@ const FormBoard = () => {
 
   const submitForm = async (e: any) => {
     e.preventDefault();
-    const columnsName = columns.map((column) => column.name);
-    await createBoard(boardName, ...columnsName);
-    const boards: any = await getBoard();
-    dispatch({ type: "dataDB/getData", payload: boards });
-    dispatch({ type: "activeMenu/toggleForm" });
+    const boardNameClone = boardName.toLowerCase();
+    const columnsName = columns
+      .map((column) => column.name.toLowerCase())
+      .filter((item) => item !== "");
+
+    if (!boardNameClone) {
+      setFillBoardError("Can't be empty.");
+      return;
+    }
+    if (data.find((item) => item.name === boardNameClone)) {
+      setFillBoardError("This Board Name have already exist.");
+      return;
+    } else {
+      await createBoard(boardNameClone, ...columnsName);
+      const boards: any = await getBoard();
+      dispatch({ type: "dataDB/getData", payload: boards });
+      dispatch({ type: "activeMenu/toggleForm" });
+
+      setFillBoardError("");
+      setFillColumnError("");
+    }
   };
 
   return (
@@ -50,13 +68,27 @@ const FormBoard = () => {
       <div className="flex flex-col gap-4">
         <div>
           <label className="text-xs font-bold text-[#828FA3]">Board Name</label>
-          <input
-            type="text"
-            className="h-10 w-full rounded-lg border border-[#828FA340] bg-inherit p-4 outline-none"
-            placeholder="e.g. Web Design"
-            value={boardName}
-            onChange={(e) => setBoardName(e.target.value)}
-          />
+          <div className="relative">
+            {fillBoardError ? (
+              <p
+                className={`${fillColumnError} absolute right-4 top-[50%] translate-y-[-50%] text-xs text-red-600`}
+              >
+                {fillBoardError}
+              </p>
+            ) : null}
+            <input
+              type="text"
+              className={`${
+                fillBoardError ? "border-red-600" : "border-[#828FA340]"
+              } h-10 w-full rounded-lg border  bg-inherit p-4 outline-none`}
+              placeholder="e.g. Web Design"
+              value={boardName}
+              onChange={(e) => {
+                setFillBoardError("");
+                setBoardName(e.target.value);
+              }}
+            />
+          </div>
         </div>
         <div>
           <label className="text-xs font-bold text-[#828FA3]">
@@ -71,9 +103,9 @@ const FormBoard = () => {
                       <p
                         className={`${
                           fillColumnError && !item.name
-                        } absolute right-6 top-[50%] translate-y-[-50%] text-xs text-red-600`}
+                        } absolute right-4 top-[50%] translate-y-[-50%] text-xs text-red-600`}
                       >
-                        Can't be empty
+                        {fillColumnError}
                       </p>
                     ) : null}
                     <input
