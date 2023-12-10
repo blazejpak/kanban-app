@@ -5,7 +5,7 @@ import { useState } from "react";
 import { addNewColumn, getBoard } from "@/lib/actions/board.action";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
-const FormColumn = ({ resetDiv }: any) => {
+const FormColumn = () => {
   const dispatch = useAppDispatch();
   const activePage = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
@@ -26,7 +26,6 @@ const FormColumn = ({ resetDiv }: any) => {
       const boards: any = await getBoard();
       dispatch({ type: "dataDB/getData", payload: boards });
       dispatch({ type: "activeMenu/toggleForm" });
-      resetDiv();
     }
   };
 

@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  /* Input text */
+  .input_text {
+    @apply cursor-pointer rounded-lg border  border-[#828FA340]/25 bg-inherit  pl-4 outline-none placeholder:text-[#000112]/25 hover:border-[#635FC7] focus:border-[#635FC7] active:border-[#635FC7] dark:placeholder:text-[#fff]/25;
+  }
+  .input_text--label {
+    @apply text-xs font-bold text-[#828FA3] first-letter:uppercase dark:text-white;
+  }
+}

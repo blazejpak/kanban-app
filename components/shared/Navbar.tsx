@@ -83,6 +83,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
+      {/* Add New Task */}
       <div className="flex items-center gap-6">
         <div className="hidden sm:block">
           <Button
@@ -147,7 +148,7 @@ const Navbar = () => {
               dispatch({ type: "activeMenu/toggleMenu" });
             }}
           ></div>
-          <nav className="min-h-96 absolute top-[110%] z-20 flex  w-64 flex-col justify-between rounded-lg bg-[#fff] pb-4 text-[#828FA3] dark:bg-[#2B2C37] sm:hidden">
+          <nav className="min-h-96 z-100 absolute top-[110%] flex  w-64 flex-col justify-between rounded-lg bg-[#fff] pb-4 text-[#828FA3] dark:bg-[#2B2C37] sm:hidden">
             <Board />
             <div className="self-center">
               <ThemeSwitcher />

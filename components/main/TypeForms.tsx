@@ -52,10 +52,6 @@ const TypeForms = () => {
     element.style.pointerEvents = "auto";
   }
 
-  const resetDivHandler = () => {
-    dispatch({ type: "activeMenu/toggleForm" });
-  };
-
   return (
     <>
       {activeForm && (
@@ -66,11 +62,7 @@ const TypeForms = () => {
           {typeForm === "board" ? (
             <AddBoard activeMenu={activeMenu} backdropRef={backdropRef} />
           ) : (
-            <AddColumn
-              activeMenu={activeMenu}
-              backdropRef={backdropRef}
-              resetDivHandler={resetDivHandler}
-            />
+            <AddColumn activeMenu={activeMenu} backdropRef={backdropRef} />
           )}
         </>
       )}

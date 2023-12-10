@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jakarta.className} bg-[#F4F7FD] dark:bg-[#20212C]`}
+        className={`${jakarta.className}   bg-[#F4F7FD] dark:bg-[#20212C]`}
         suppressHydrationWarning={true}
       >
         <ProvideStore>
