@@ -3,14 +3,23 @@ import removeIcon from "@/public/assets/icon-cross.svg";
 import Image from "next/image";
 import { useAppSelector } from "@/store/hooks";
 
+import chevronDown from "@/public/assets/icon-chevron-down.svg";
+
 const FormNewTask = () => {
   const activeBoard = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
   );
-  //   TODO status
+
   const allData = useAppSelector((state) => state.dataSlice.data);
   const data = allData.find((item) => item._id === activeBoard).columns;
 
+  const statusArr = [];
+  for (const element of data) {
+    statusArr.push(element.nameColumn);
+  }
+  console.log(statusArr);
+  const [statusClicked, setStatusClicked] = useState<boolean>(false);
+  const [activeStatus, setActiveStatus] = useState<string>(statusArr[0]);
   const [fillSubtaskError, setFillSubtaskError] = useState<string>("");
 
   const [subtasks, setSubtasks] = useState<Array<any>>([
@@ -33,7 +42,7 @@ const FormNewTask = () => {
   };
 
   return (
-    <form className="flex  flex-col gap-6">
+    <form className="mb-6 flex flex-col gap-6">
       <div className="flex flex-col gap-2">
         <label className="input_text--label " htmlFor="title">
           title
@@ -118,11 +127,33 @@ const FormNewTask = () => {
       </div>
 
       {/* TODO */}
-      <div className="flex flex-col gap-2">
+      <div className="relative  flex flex-col gap-2">
         <label className="input_text--label">status</label>
-        <div className="input_text relative flex h-10 items-center">
-          <p>Doing</p>
+        <div
+          className="input_text relative flex h-10 items-center"
+          onClick={() => setStatusClicked((prevStatus) => !prevStatus)}
+        >
+          <p>{activeStatus}</p>
+          <Image
+            alt="chevron down"
+            height={12}
+            width={12}
+            src={chevronDown}
+            className="absolute right-4 top-[50%] translate-y-[-50%]"
+          />
         </div>
+        {statusClicked && (
+          <ul className="absolute top-[110%] z-[100] flex h-fit w-full flex-col gap-4 text-ellipsis rounded-lg bg-[#20212C] px-4 py-6 outline-none placeholder:text-[#000112]/25 ">
+            {statusArr.map((item) => {
+              console.log(item);
+              return (
+                <li key={item} value={item}>
+                  {item}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </form>
   );

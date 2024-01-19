@@ -33,7 +33,7 @@ const Navbar = () => {
     : "";
 
   return (
-    <header className="fixed z-20 flex h-16 w-full items-center justify-between bg-white px-[5%] dark:border-b dark:border-[#3E3F4E] dark:bg-[#2B2C37] sm:h-20 xl:h-24">
+    <header className="fixed z-50 flex h-16 w-full items-center justify-between bg-white px-[5%] dark:border-b dark:border-[#3E3F4E] dark:bg-[#2B2C37] sm:h-20 xl:h-24">
       <div className="flex h-full items-center gap-4 sm:gap-6">
         <div className={`hidden  ${!isActiveMenu && "sm:block"}`}>
           <Image

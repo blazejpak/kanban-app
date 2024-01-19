@@ -87,9 +87,7 @@ const TypeForms = () => {
 
       {newTaskForm && (
         <>
-          <div
-            className={`absolute z-30 h-full w-full backdrop-brightness-50`}
-          ></div>
+          <div className={`absolute z-30 h-full w-full bg-black/50`}></div>
           <AddNewTask activeMenu={activeMenu} />
         </>
       )}

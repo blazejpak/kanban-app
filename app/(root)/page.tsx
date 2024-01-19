@@ -6,6 +6,8 @@ import { getBoard } from "@/lib/actions/board.action";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect } from "react";
 
+import AddNewTask from "@/components/groups/AddNewTask";
+
 export default function Home() {
   const dispatch = useAppDispatch();
   const activePage = useAppSelector(
