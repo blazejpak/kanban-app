@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useAppSelector } from "@/store/hooks";
 
 import chevronDown from "@/public/assets/icon-chevron-down.svg";
+import Button from "../ui/Button";
 
 const FormNewTask = () => {
   const activeBoard = useAppSelector(
@@ -13,21 +14,20 @@ const FormNewTask = () => {
   const allData = useAppSelector((state) => state.dataSlice.data);
   const data = allData.find((item) => item._id === activeBoard).columns;
 
-  const statusArr = [];
+  const statusArr: Array<{ name: string; id: string }> = [];
   for (const element of data) {
-    statusArr.push(element.nameColumn);
+    statusArr.push({ name: element.nameColumn, id: element._id });
   }
-  console.log(statusArr);
+  const [activeStatus, setActiveStatus] = useState(statusArr[0]);
+  const [subtasks, setSubtasks] = useState<
+    Array<{ name: string; status: boolean; id: number }>
+  >([{ name: "", status: false, id: Math.random() }]);
+
   const [statusClicked, setStatusClicked] = useState<boolean>(false);
-  const [activeStatus, setActiveStatus] = useState<string>(statusArr[0]);
   const [fillSubtaskError, setFillSubtaskError] = useState<string>("");
 
-  const [subtasks, setSubtasks] = useState<Array<any>>([
-    { name: "", id: Math.random() },
-  ]);
-
   const newSubtaskHandle = () => {
-    const newSubtask = { name: "", id: Math.random() };
+    const newSubtask = { name: "", status: false, id: Math.random() };
     if (subtasks.find((subtask) => subtask.name === "")) {
       setFillSubtaskError("Can't be empty.");
       return;
@@ -40,6 +40,8 @@ const FormNewTask = () => {
   const removeColumn = (index: number) => {
     setSubtasks(subtasks.filter((subtask) => subtask.id !== index));
   };
+
+  const submitTaskHandle = () => {};
 
   return (
     <form className="mb-6 flex flex-col gap-6">
@@ -133,7 +135,7 @@ const FormNewTask = () => {
           className="input_text relative flex h-10 items-center"
           onClick={() => setStatusClicked((prevStatus) => !prevStatus)}
         >
-          <p>{activeStatus}</p>
+          <p>{activeStatus.name}</p>
           <Image
             alt="chevron down"
             height={12}
@@ -143,18 +145,30 @@ const FormNewTask = () => {
           />
         </div>
         {statusClicked && (
-          <ul className="absolute top-[110%] z-[100] flex h-fit w-full flex-col gap-4 text-ellipsis rounded-lg bg-[#20212C] px-4 py-6 outline-none placeholder:text-[#000112]/25 ">
+          <ul className="top-[110%] z-[100] flex  h-fit w-full flex-col text-ellipsis rounded-lg bg-[#20212C]   py-6 outline-none placeholder:text-[#000112]/25 ">
             {statusArr.map((item) => {
-              console.log(item);
               return (
-                <li key={item} value={item}>
-                  {item}
+                <li
+                  key={item.id}
+                  value={item.name}
+                  className="cursor-pointer px-4 py-1 text-[#828FA3] first-letter:uppercase hover:brightness-200 "
+                  onClick={() => {
+                    setActiveStatus(item);
+                  }}
+                >
+                  {item.name}
                 </li>
               );
             })}
           </ul>
         )}
       </div>
+      <Button
+        disabled={false}
+        onClick={submitTaskHandle}
+        plus={false}
+        text="Create Task"
+      />
     </form>
   );
 };

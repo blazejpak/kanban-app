@@ -33,7 +33,7 @@ const Navbar = () => {
     : "";
 
   return (
-    <header className="fixed z-50 flex h-16 w-full items-center justify-between bg-white px-[5%] dark:border-b dark:border-[#3E3F4E] dark:bg-[#2B2C37] sm:h-20 xl:h-24">
+    <header className="fixed z-10 flex h-16 w-full items-center justify-between bg-white px-[5%] dark:border-b dark:border-[#3E3F4E] dark:bg-[#2B2C37] sm:h-20 xl:h-24">
       <div className="flex h-full items-center gap-4 sm:gap-6">
         <div className={`hidden  ${!isActiveMenu && "sm:block"}`}>
           <Image
@@ -100,6 +100,7 @@ const Navbar = () => {
             text=""
             onClick={() => {
               dispatch({ type: "activeMenu/toggleNewTask" });
+              if (isActiveMenu) dispatch({ type: "activeMenu/toggleMenu" });
             }}
             plus={true}
             disabled={data?.length > 0 && false}
@@ -148,7 +149,7 @@ const Navbar = () => {
               dispatch({ type: "activeMenu/toggleMenu" });
             }}
           ></div>
-          <nav className="min-h-96 z-100 absolute top-[110%] flex  w-64 flex-col justify-between rounded-lg bg-[#fff] pb-4 text-[#828FA3] dark:bg-[#2B2C37] sm:hidden">
+          <nav className="min-h-96 absolute top-[110%] z-20 flex  w-64 flex-col justify-between rounded-lg bg-[#fff] pb-4 text-[#828FA3] dark:bg-[#2B2C37] sm:hidden">
             <Board />
             <div className="self-center">
               <ThemeSwitcher />

@@ -5,7 +5,6 @@ const boardSchema = new mongoose.Schema({
   columns: [
     {
       nameColumn: { type: String, required: true },
-
       tasks: [
         {
           task: { type: String, required: true },

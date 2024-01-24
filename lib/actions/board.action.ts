@@ -39,6 +39,7 @@ export async function addNewColumn(id: string, column: string) {
 interface Column {
   nameColumn: string;
   tasks: Array<any>;
+  _id: string;
 }
 
 export async function getBoard() {
@@ -52,14 +53,15 @@ export async function getBoard() {
         name: data.name,
         columns: data.columns.map((column: Column) => ({
           nameColumn: column.nameColumn || null,
-          tasks: column.tasks.map((task) => {}),
+          _id: column._id.toString(),
+          tasks: column.tasks.map((task) => {}) || null,
         })),
       };
     });
 
     return simpleBoard;
   } catch (error: any) {
-    throw new Error("Error creating Board " + error);
+    throw new Error("Error getting Board " + error);
   }
 }
 
@@ -79,6 +81,22 @@ export async function editBoard(id: string, newBoardName: string) {
 
     await Board.updateOne({ _id: id }, { name: newBoardName });
   } catch (error: any) {
-    throw new Error("Error creating Board " + error);
+    throw new Error("Error editing Board " + error);
+  }
+}
+
+export async function newTask(
+  id: string,
+  titleTask: string,
+  description: string,
+  subtasks: Array<string>,
+  status: string,
+) {
+  try {
+    await connectToDB();
+
+    const findBoard = await Board.findById(id);
+  } catch (error) {
+    throw new Error("Error creating new task " + error);
   }
 }

@@ -26,6 +26,7 @@ const Board = () => {
         onClick={() => {
           dispatch({ type: "activeMenu/typeForm", payload: "board" });
           dispatch({ type: "activeMenu/toggleForm" });
+          dispatch({ type: "activeMenu/toggleMenu" });
         }}
       >
         <Image src={logo} alt={"Add New Board Icon"} className="h-4 w-4" />
