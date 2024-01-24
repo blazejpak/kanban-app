@@ -87,6 +87,7 @@ export async function editBoard(id: string, newBoardName: string) {
 
 export async function newTask(
   id: string,
+  columnId: string,
   titleTask: string,
   description: string,
   subtasks: Array<string>,
@@ -96,6 +97,16 @@ export async function newTask(
     await connectToDB();
 
     const findBoard = await Board.findById(id);
+    const newTask = findBoard.columns.find(
+      (column: any) => column._id === columnId,
+    );
+
+    newTask.tasks.push({
+      task: titleTask,
+      description,
+      subtasks: subtasks,
+      status,
+    });
   } catch (error) {
     throw new Error("Error creating new task " + error);
   }
