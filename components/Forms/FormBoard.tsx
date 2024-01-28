@@ -63,9 +63,9 @@ const FormBoard = () => {
   return (
     <form
       onSubmit={submitForm}
-      className="flex h-full w-full flex-col justify-between gap-4"
+      className="flex w-full flex-col justify-between gap-4"
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex  flex-col gap-4 ">
         <div>
           <label className="text-xs font-bold text-[#828FA3]">Board Name</label>
           <div className="relative">

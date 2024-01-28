@@ -41,7 +41,7 @@ const EditBoard = ({ activeMenu }: Props) => {
       ref={backdropRef}
       className={`${
         activeMenu && "sm:translate-x-[-100px] md:translate-x-[0]"
-      } pointer-events-auto absolute z-40 h-fit w-[340px] rounded-md bg-white  p-8 text-start opacity-100 dark:bg-[#2B2C37] sm:w-[480px]`}
+      } pointer-events-auto absolute z-40 h-fit max-h-[80%] w-[340px] overflow-y-auto rounded-md bg-white  p-8 text-start opacity-100 dark:bg-[#2B2C37] sm:w-[480px]`}
     >
       <div className="flex h-full w-full flex-col">
         <h3 className="mb-6 text-lg font-bold">Edit Name Board</h3>
