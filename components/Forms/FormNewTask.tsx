@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import removeIcon from "@/public/assets/icon-cross.svg";
 import Image from "next/image";
 import { useAppSelector } from "@/store/hooks";
 
 import chevronDown from "@/public/assets/icon-chevron-down.svg";
 import Button from "../ui/Button";
+import { newTask } from "@/lib/actions/board.action";
+import { ObjectId } from "mongodb";
 
 const FormNewTask = () => {
   const activeBoard = useAppSelector(
@@ -18,16 +20,18 @@ const FormNewTask = () => {
   for (const element of data) {
     statusArr.push({ name: element.nameColumn, id: element._id });
   }
-  const [activeStatus, setActiveStatus] = useState(statusArr[0]);
+  const [title, setTitile] = useState<string>("");
+  const [descriptionText, setDescritpionText] = useState<string>("");
   const [subtasks, setSubtasks] = useState<
-    Array<{ name: string; status: boolean; id: number }>
-  >([{ name: "", status: false, id: Math.random() }]);
+    Array<{ name: string; status: boolean; subId: number }>
+  >([{ name: "", status: false, subId: Math.random() }]);
 
+  const [activeStatus, setActiveStatus] = useState(statusArr[0]);
   const [statusClicked, setStatusClicked] = useState<boolean>(false);
   const [fillSubtaskError, setFillSubtaskError] = useState<string>("");
 
   const newSubtaskHandle = () => {
-    const newSubtask = { name: "", status: false, id: Math.random() };
+    const newSubtask = { name: "", status: false, subId: Math.random() };
     if (subtasks.find((subtask) => subtask.name === "")) {
       setFillSubtaskError("Can't be empty.");
       return;
@@ -38,10 +42,25 @@ const FormNewTask = () => {
   };
 
   const removeColumn = (index: number) => {
-    setSubtasks(subtasks.filter((subtask) => subtask.id !== index));
+    setSubtasks(subtasks.filter((subtask) => subtask.subId !== index));
   };
 
-  const submitTaskHandle = () => {};
+  const submitTaskHandle = async (e: any) => {
+    e.preventDefault();
+    if (subtasks.find((subtask) => subtask.name === "")) {
+      setFillSubtaskError("Can't be empty.");
+      return;
+    } else {
+      await newTask(
+        activeBoard,
+        activeStatus.id,
+        title,
+        descriptionText,
+        subtasks,
+        activeStatus.name,
+      );
+    }
+  };
 
   return (
     <form className="mb-6 flex flex-col gap-6">
@@ -54,8 +73,10 @@ const FormNewTask = () => {
           type="text"
           className={`$ input_text h-10 w-full `}
           placeholder="e.g. Take coffee break"
-          value=""
-          onChange={() => {}}
+          value={title}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            setTitile(event.target.value);
+          }}
         />
       </div>
 
@@ -65,7 +86,9 @@ const FormNewTask = () => {
           className={`$ input_text h-28 max-h-52 min-h-[60px] w-full `}
           placeholder="e.g. It’s always good to take a break. This 15 minute break will 
           recharge the batteries a little."
-          onChange={() => {}}
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+            setDescritpionText(event.target.value);
+          }}
         />
       </div>
 
@@ -74,7 +97,7 @@ const FormNewTask = () => {
         <div className="flex max-h-[140px] flex-col gap-2 overflow-y-auto">
           {subtasks.map((item) => {
             return (
-              <div key={item.id} className="flex items-center gap-4">
+              <div key={item.subId} className="flex items-center gap-4">
                 <div className="relative w-full">
                   {fillSubtaskError && !item.name ? (
                     <p
@@ -97,7 +120,7 @@ const FormNewTask = () => {
                     onChange={(e) => {
                       const newName = e.target.value;
                       const updatedColumns = subtasks.map((column) => {
-                        if (column.id === item.id) {
+                        if (column.subId === item.subId) {
                           column.name = newName;
                         }
                         return column;
@@ -107,7 +130,7 @@ const FormNewTask = () => {
                   />
                 </div>
                 <div
-                  onClick={() => removeColumn(item.id)}
+                  onClick={() => removeColumn(item.subId)}
                   className="mr-2 cursor-pointer"
                 >
                   <Image src={removeIcon} height={16} alt="Remove Icon" />

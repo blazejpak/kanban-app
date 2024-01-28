@@ -1,5 +1,6 @@
 "use server";
 
+import { ObjectId } from "mongodb";
 import Board from "../models/board.model";
 import { connectToDB } from "../mongoose";
 
@@ -47,6 +48,7 @@ export async function getBoard() {
     await connectToDB();
 
     const boards = await Board.find();
+    // console.log(boards);
     const simpleBoard = boards.map((data) => {
       return {
         _id: data._id.toString(),
@@ -54,7 +56,17 @@ export async function getBoard() {
         columns: data.columns.map((column: Column) => ({
           nameColumn: column.nameColumn || null,
           _id: column._id.toString(),
-          tasks: column.tasks.map((task) => {}) || null,
+          tasks:
+            column.tasks.map((task) => ({
+              task: task.titleTask,
+              description: task.description,
+              subtasks: task.subtasks.map((subtask: any) => ({
+                name: subtask.name,
+                status: subtask.status,
+                subId: subtask.subId,
+              })),
+              status: task.status,
+            })) || null,
         })),
       };
     });
@@ -90,7 +102,7 @@ export async function newTask(
   columnId: string,
   titleTask: string,
   description: string,
-  subtasks: Array<string>,
+  subtasks: Array<{ name: string; status: boolean; subId: number }>,
   status: string,
 ) {
   try {
@@ -98,15 +110,23 @@ export async function newTask(
 
     const findBoard = await Board.findById(id);
     const newTask = findBoard.columns.find(
-      (column: any) => column._id === columnId,
+      (column: Column) => column._id.toString() === columnId,
     );
+
+    const formattedSubtasks = subtasks.map((subtask) => ({
+      subtask: subtask.name,
+      status: subtask.status,
+      subId: subtask.subId,
+    }));
 
     newTask.tasks.push({
       task: titleTask,
       description,
-      subtasks: subtasks,
+      subtasks: formattedSubtasks,
       status,
     });
+
+    await findBoard.save();
   } catch (error) {
     throw new Error("Error creating new task " + error);
   }
