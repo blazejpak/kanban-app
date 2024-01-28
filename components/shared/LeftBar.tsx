@@ -29,7 +29,7 @@ const LeftBar = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <section className="relative min-h-screen">
+    <section className="relative">
       {isActiveMenu && (
         <nav
           className={`${
@@ -40,26 +40,27 @@ const LeftBar = () => {
             "brightness-50"
           } sticky z-30 hidden h-full w-64 flex-col justify-between border-r-[1px] border-[#E4EBFA] bg-[#fff] dark:border-[#3E3F4E] dark:bg-[#2B2C37] sm:flex`}
         >
-          <div className="flex flex-col gap-14 ">
-            <div className="pl-7 pt-9">
-              <Image
-                src={logoDark}
-                alt="logo"
-                width={150}
-                className="hidden dark:block "
-              />
-              <Image
-                src={logoLight}
-                alt="logo"
-                width={150}
-                className="block dark:hidden"
-              />
-            </div>
-
-            <Board />
+          {/* LOGO */}
+          <div className="min-h-[60px] py-9 pl-7">
+            <Image
+              src={logoDark}
+              alt="logo"
+              width={150}
+              className="hidden dark:block"
+            />
+            <Image
+              src={logoLight}
+              alt="logo"
+              width={150}
+              className=" block dark:hidden"
+            />
           </div>
 
-          <div className=" mb-10 flex flex-col  gap-2">
+          {/* BOARDS SCROLL */}
+          <Board />
+
+          {/* SWITCHER + HIDE */}
+          <div className="  flex min-h-[90px] flex-col gap-2">
             <div className="self-center">
               <ThemeSwitcher />
             </div>

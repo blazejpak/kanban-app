@@ -23,15 +23,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${jakarta.className}   bg-[#F4F7FD] dark:bg-[#20212C]`}
+        className={`${jakarta.className} h-full bg-[#F4F7FD] dark:bg-[#20212C]`}
         suppressHydrationWarning={true}
       >
         <ProvideStore>
           <ProvidersTheme>
             <Navbar />
-            <main className="flex">
+            <main className="flex h-full">
               <LeftBar />
-              <section className="min-h-screen w-full">{children}</section>
+              <section className=" w-full ">{children}</section>
             </main>
           </ProvidersTheme>
         </ProvideStore>

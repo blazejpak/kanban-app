@@ -11,3 +11,7 @@
     @apply text-xs font-bold text-[#828FA3] first-letter:uppercase dark:text-white;
   }
 }
+
+html {
+  height: 100dvh;
+}

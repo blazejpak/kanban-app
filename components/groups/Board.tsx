@@ -10,7 +10,7 @@ const Board = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <div className=" overflow-auto sm:h-[60vh]">
+    <div className=" flex-grow overflow-y-auto overflow-x-hidden">
       <h2 className=" p-5 text-xs font-bold uppercase tracking-widest ">
         All boards ({data.length})
       </h2>

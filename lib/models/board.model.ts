@@ -13,6 +13,7 @@ const boardSchema = new mongoose.Schema({
             {
               subtask: { type: String },
               status: { type: Boolean },
+              subId: { type: Number },
             },
           ],
           status: { type: String, required: true },
