@@ -18,7 +18,7 @@ const ColumnsPage = () => {
   console.log(activePageColumns);
   return (
     <div className="flex flex-grow gap-6  pl-6 pt-20 ">
-      {activePageColumns.map((lists): any => (
+      {activePageColumns.map((lists: any) => (
         <div
           key={lists._id}
           className="flex  min-w-[280px] flex-col gap-5 pt-6"
