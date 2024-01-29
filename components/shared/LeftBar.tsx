@@ -60,7 +60,7 @@ const LeftBar = () => {
           <Board />
 
           {/* SWITCHER + HIDE */}
-          <div className="  flex min-h-[90px] flex-col gap-2">
+          <div className="  mb-10 flex min-h-[90px] flex-col gap-2">
             <div className="self-center">
               <ThemeSwitcher />
             </div>

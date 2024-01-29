@@ -4,7 +4,6 @@ import ClearPage from "./ClearPage";
 
 const HomePage = () => {
   const data = useAppSelector((state) => state.dataSlice.data);
-  console.log(data);
   const activeBoard = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
   );

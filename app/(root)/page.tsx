@@ -6,8 +6,6 @@ import { getBoard } from "@/lib/actions/board.action";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { useEffect } from "react";
 
-import AddNewTask from "@/components/groups/AddNewTask";
-
 export default function Home() {
   const dispatch = useAppDispatch();
   const activePage = useAppSelector(
@@ -34,9 +32,7 @@ export default function Home() {
   }, []);
 
   return (
-    <section
-      className={`relative flex min-h-full flex-col items-center justify-center gap-4  text-center `}
-    >
+    <section className={`relative flex min-h-full  flex-col `}>
       <HomePage />
       <TypeForms />
     </section>

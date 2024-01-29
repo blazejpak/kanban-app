@@ -40,8 +40,8 @@ const AddNewTask = ({ activeMenu }: Props) => {
     <div
       ref={backdropRef}
       className={`${
-        activeMenu && "sm:translate-x-[-100px] md:translate-x-[0]"
-      } pointer-events-auto absolute z-40   max-h-[80%] w-[340px] overflow-y-auto rounded-md bg-white  p-8  text-start opacity-100 dark:bg-[#2B2C37] sm:w-[480px]`}
+        activeMenu && " sm:translate-x-[-75%]"
+      } pointer-events-auto absolute  left-[50%]  top-[50%] z-40   max-h-[80%]  w-[340px] translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-md bg-white p-8 text-start opacity-100 dark:bg-[#2B2C37] sm:w-[480px]`}
     >
       {/* For new Board */}
       <div className="flex h-full w-full flex-col">
