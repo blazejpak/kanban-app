@@ -48,26 +48,31 @@ export async function getBoard() {
     await connectToDB();
 
     const boards = await Board.find();
-    // console.log(boards);
     const simpleBoard = boards.map((data) => {
       return {
         _id: data._id.toString(),
         name: data.name,
-        columns: data.columns.map((column: Column) => ({
-          nameColumn: column.nameColumn || null,
-          _id: column._id.toString(),
-          tasks:
-            column.tasks.map((task) => ({
-              task: task.titleTask,
-              description: task.description,
-              subtasks: task.subtasks.map((subtask: any) => ({
-                name: subtask.name,
-                status: subtask.status,
-                subId: subtask.subId,
-              })),
-              status: task.status,
-            })) || null,
-        })),
+        columns: data.columns.map((column: Column) => {
+          // console.log(column);
+          return {
+            nameColumn: column.nameColumn || null,
+            _id: column._id.toString(),
+            tasks:
+              column.tasks.map((task) => {
+                console.log(task);
+                return {
+                  task: task.task,
+                  description: task.description,
+                  subtasks: task.subtasks.map((subtask: any) => ({
+                    subtask: subtask.subtask,
+                    status: subtask.status,
+                    subId: subtask.subId,
+                  })),
+                  status: task.status,
+                };
+              }) || null,
+          };
+        }),
       };
     });
 
@@ -125,6 +130,8 @@ export async function newTask(
       subtasks: formattedSubtasks,
       status,
     });
+
+    console.log(newTask);
 
     await findBoard.save();
   } catch (error) {

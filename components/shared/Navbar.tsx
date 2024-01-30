@@ -34,7 +34,6 @@ const Navbar = () => {
 
   const dataColumns = data.find((item) => item._id === activePage)?.columns;
 
-  console.log(dataColumns);
   return (
     <header className="fixed z-10 flex h-16 w-full items-center justify-between bg-white px-[5%] dark:border-b dark:border-[#3E3F4E] dark:bg-[#2B2C37] sm:h-20 xl:h-24">
       <div className="flex h-full items-center gap-4 sm:gap-6">
