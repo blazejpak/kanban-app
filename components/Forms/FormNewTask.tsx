@@ -1,14 +1,14 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import removeIcon from "@/public/assets/icon-cross.svg";
 import Image from "next/image";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 import chevronDown from "@/public/assets/icon-chevron-down.svg";
 import Button from "../ui/Button";
 import { newTask } from "@/lib/actions/board.action";
-import { ObjectId } from "mongodb";
 
 const FormNewTask = () => {
+  const dispatch = useAppDispatch();
   const activeBoard = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
   );
@@ -28,7 +28,9 @@ const FormNewTask = () => {
 
   const [activeStatus, setActiveStatus] = useState(statusArr[0]);
   const [statusClicked, setStatusClicked] = useState<boolean>(false);
+  const [submitClicked, setSubmitClicked] = useState<boolean>(false);
   const [fillSubtaskError, setFillSubtaskError] = useState<string>("");
+  const [fillTitleError, setFillTitleError] = useState<string>("");
 
   const newSubtaskHandle = () => {
     const newSubtask = { name: "", status: false, subId: Math.random() };
@@ -42,13 +44,14 @@ const FormNewTask = () => {
   };
 
   const removeColumn = (index: number) => {
-    setSubtasks(subtasks.filter((subtask) => subtask.subId !== index));
+    if (subtasks.length === 1) setFillSubtaskError("Can't be empty.");
+    else setSubtasks(subtasks.filter((subtask) => subtask.subId !== index));
   };
 
   const submitTaskHandle = async (e: any) => {
     e.preventDefault();
-    if (subtasks.find((subtask) => subtask.name === "")) {
-      setFillSubtaskError("Can't be empty.");
+    setSubmitClicked(true);
+    if (subtasks.find((subtask) => subtask.name === "") || !title) {
       return;
     } else {
       await newTask(
@@ -59,12 +62,22 @@ const FormNewTask = () => {
         subtasks,
         activeStatus.name,
       );
+
+      setSubmitClicked(false);
+      setFillSubtaskError("");
+      setFillTitleError("");
+
+      dispatch({ type: "activeMenu/toggleNewTask" });
     }
   };
 
+  useEffect(() => {
+    if (submitClicked && !title) setFillTitleError("Can't be empty.");
+  }, [submitClicked]);
+
   return (
     <form className="mb-6 flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
+      <div className="relative flex flex-col gap-2">
         <label className="input_text--label " htmlFor="title">
           title
         </label>
@@ -78,6 +91,16 @@ const FormNewTask = () => {
             setTitile(event.target.value);
           }}
         />
+
+        {fillTitleError && !title ? (
+          <p
+            className={`${
+              fillTitleError && !title
+            } absolute right-1 top-[50%] translate-y-[-50%] text-xs text-red-600 sm:right-4`}
+          >
+            {fillTitleError}
+          </p>
+        ) : null}
       </div>
 
       <div className="flex flex-col gap-2">

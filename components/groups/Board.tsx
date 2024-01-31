@@ -22,7 +22,7 @@ const Board = () => {
         ))}
       </ul>
       <div
-        className="flex w-full cursor-pointer items-center gap-4 rounded-br-3xl  rounded-tr-3xl px-4 py-2 font-bold text-[#635FC7] transition-all  hover:bg-[#20212C] dark:hover:bg-[#F4F7FD] sm:py-4"
+        className="flex w-[95%] cursor-pointer items-center gap-4 rounded-br-3xl  rounded-tr-3xl px-4 py-2 font-bold text-[#635FC7] transition-all  hover:bg-[#635FC7]/20 dark:hover:bg-[#F4F7FD] sm:py-4"
         onClick={() => {
           dispatch({ type: "activeMenu/typeForm", payload: "board" });
           dispatch({ type: "activeMenu/toggleForm" });

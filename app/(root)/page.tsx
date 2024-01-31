@@ -18,7 +18,6 @@ export default function Home() {
     const fetchData = async () => {
       const boards: any = await getBoard();
       dispatch({ type: "dataDB/getData", payload: boards });
-      console.log(boards);
       if (boards.find((item: any) => item._id === pageLocal) === undefined) {
         dispatch({ type: "activeBoard/payloadBoard", payload: boards[0]._id });
       } else if (boards.length > 0 && !activePage && !pageLocal) {

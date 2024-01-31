@@ -53,13 +53,11 @@ export async function getBoard() {
         _id: data._id.toString(),
         name: data.name,
         columns: data.columns.map((column: Column) => {
-          // console.log(column);
           return {
             nameColumn: column.nameColumn || null,
             _id: column._id.toString(),
             tasks:
               column.tasks.map((task) => {
-                console.log(task);
                 return {
                   task: task.task,
                   description: task.description,

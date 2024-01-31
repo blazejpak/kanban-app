@@ -65,7 +65,7 @@ const LeftBar = () => {
               <ThemeSwitcher />
             </div>
             <div
-              className="flex h-10 w-[240px] cursor-pointer items-center gap-3 rounded-br-xl rounded-tr-xl pl-6 transition-all hover:bg-white"
+              className="flex h-10 w-[240px] cursor-pointer items-center gap-3 rounded-br-[1rem] rounded-tr-[1rem] pl-6 transition-all hover:bg-[#635FC7]/20 dark:hover:bg-white"
               onClick={() => dispatch({ type: "activeMenu/toggleMenu" })}
             >
               <Image src={hideMenu} alt="hide bar" className="h-4" />

@@ -110,7 +110,7 @@ const Navbar = () => {
         </div>
         <div
           onClick={() => setOptionsActive((prevState) => !prevState)}
-          className="cursor-pointer p-1"
+          className="cursor-pointer p-1 transition-all hover:brightness-50 dark:hover:brightness-150"
         >
           <Image src={dots} alt="dots" className="h-5" />
         </div>
