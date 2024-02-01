@@ -6,6 +6,7 @@ import DeleteBoard from "../groups/DeleteBoard";
 import EditBoard from "../groups/EditBoard";
 import AddNewTask from "../groups/AddNewTask";
 import { useEffect, useRef } from "react";
+import CheckTask from "../groups/CheckTask";
 
 const TypeForms = () => {
   const backdropRef = useRef<HTMLElement | any>();
@@ -24,6 +25,9 @@ const TypeForms = () => {
   );
   const editBoard = useAppSelector((state) => state.activeMenuSlice.editBoard);
   const newTaskForm = useAppSelector((state) => state.activeMenuSlice.newTask);
+  const checkTaskBox = useAppSelector(
+    (state) => state.activeMenuSlice.checkTask,
+  );
 
   useEffect(() => {
     const handler = (event: MouseEvent) => {
@@ -89,6 +93,12 @@ const TypeForms = () => {
         <>
           <div className={`absolute z-30 h-full w-full bg-black/50`}></div>
           <AddNewTask activeMenu={activeMenu} />
+        </>
+      )}
+
+      {checkTaskBox && (
+        <>
+          <div className={`absolute z-30 h-full w-full bg-black/50`}></div>
         </>
       )}
     </>

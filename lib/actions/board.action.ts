@@ -67,7 +67,7 @@ export async function getBoard() {
                     subId: subtask.subId,
                   })),
                   status: task.status,
-                  _id: task._id,
+                  _id: task._id.toString(),
                 };
               }) || null,
           };

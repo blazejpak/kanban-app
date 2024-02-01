@@ -9,6 +9,7 @@ interface MenuActive {
   deleteBoard: boolean;
   editBoard: boolean;
   newTask: boolean;
+  checkTask: boolean;
 }
 
 const initialState: MenuActive = {
@@ -18,6 +19,7 @@ const initialState: MenuActive = {
   deleteBoard: false,
   editBoard: false,
   newTask: false,
+  checkTask: false,
 };
 
 export const activeMenuSlice = createSlice({
@@ -41,6 +43,9 @@ export const activeMenuSlice = createSlice({
     },
     toggleNewTask: (state) => {
       state.newTask = !state.newTask;
+    },
+    toggleCheckTask: (state) => {
+      state.checkTask = !state.checkTask;
     },
   },
 });
