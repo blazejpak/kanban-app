@@ -6,7 +6,7 @@ import DeleteBoard from "../groups/DeleteBoard";
 import EditBoard from "../groups/EditBoard";
 import AddNewTask from "../groups/AddNewTask";
 import { useEffect, useRef } from "react";
-import CheckTask from "../groups/CheckTask";
+import CheckTask from "../groups/CheckTask/CheckTask";
 
 const TypeForms = () => {
   const backdropRef = useRef<HTMLElement | any>();

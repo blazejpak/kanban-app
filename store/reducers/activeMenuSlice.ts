@@ -57,6 +57,7 @@ export const {
   toggleDeleteBoard,
   toggleEditBoard,
   toggleNewTask,
+  toggleCheckTask,
 } = activeMenuSlice.actions;
 
 export default activeMenuSlice.reducer;

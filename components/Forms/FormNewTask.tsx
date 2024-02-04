@@ -191,7 +191,7 @@ const FormNewTask = () => {
           />
         </div>
         {statusClicked && (
-          <ul className="top-[110%] z-[100] flex  h-fit w-full flex-col text-ellipsis rounded-lg bg-[#20212C]   py-6 outline-none placeholder:text-[#000112]/25 ">
+          <ul className="  flex  h-fit w-full flex-col  rounded-lg bg-[#20212C]   py-6 outline-none placeholder:text-[#000112]/25 ">
             {statusArr.map((item) => {
               return (
                 <li

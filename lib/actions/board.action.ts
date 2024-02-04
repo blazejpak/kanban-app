@@ -137,3 +137,14 @@ export async function newTask(
     throw new Error("Error creating new task " + error);
   }
 }
+
+export async function updateTask(
+  taskId: string,
+  subtasks: any,
+  status: boolean,
+) {
+  try {
+  } catch (error) {
+    throw new Error("Error updating task " + error);
+  }
+}

@@ -29,7 +29,7 @@ const ColumnsPage = () => {
         return (
           <ul
             key={column._id}
-            className="flex min-w-[280px] flex-col gap-5 pt-6"
+            className="flex min-w-[280px] max-w-[300px] flex-col gap-5 pt-6"
           >
             <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-[#828FA3]">
               {`${column.nameColumn} (${column.tasks.length})`}

@@ -13,7 +13,7 @@ const AddNewTask = ({ activeMenu }: Props) => {
   const isNewTaskActive = useAppSelector(
     (state) => state.activeMenuSlice.newTask,
   );
-
+  console.log(backdropRef);
   useEffect(() => {
     const handler = (event: MouseEvent) => {
       if (isNewTaskActive) {
