@@ -20,7 +20,6 @@ const ColumnTask = ({ task, description, status, subtasks, id }: Task) => {
   const checkTaskBox = useAppSelector(
     (state) => state.activeMenuSlice.checkTask,
   );
-
   useEffect(() => {
     if (!checkTaskBox) setCheckTaskBoxId("");
   }, [checkTaskBox]);
@@ -46,12 +45,12 @@ const ColumnTask = ({ task, description, status, subtasks, id }: Task) => {
       {/* CLICKED TASK*/}
       {checkTaskBox && checkTaskBoxId === id && (
         <CheckTask
-          check={checkTaskBoxId}
           task={task}
           description={description}
           status={status}
           subtasks={subtasks}
           activeMenu={activeMenu}
+          id={checkTaskBoxId}
         />
       )}
     </div>

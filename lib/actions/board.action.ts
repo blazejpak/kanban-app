@@ -106,7 +106,7 @@ export async function newTask(
   columnId: string,
   titleTask: string,
   description: string,
-  subtasks: Array<{ name: string; status: boolean; subId: number }>,
+  subtasks: Array<{ subtask: string; status: boolean; subId: number }>,
   status: string,
 ) {
   try {
@@ -118,7 +118,7 @@ export async function newTask(
     );
 
     const formattedSubtasks = subtasks.map((subtask) => ({
-      subtask: subtask.name,
+      subtask: subtask.subtask,
       status: subtask.status,
       subId: subtask.subId,
     }));
@@ -130,8 +130,6 @@ export async function newTask(
       status,
     });
 
-    console.log(newTask);
-
     await findBoard.save();
   } catch (error) {
     throw new Error("Error creating new task " + error);
@@ -139,11 +137,41 @@ export async function newTask(
 }
 
 export async function updateTask(
+  boardId: string,
+  colId: string,
   taskId: string,
-  subtasks: any,
-  status: boolean,
+  titleTask: string,
+  description: string,
+  subtasks: Array<{ subtask: string; status: boolean; subId: number }>,
+  status: string,
 ) {
   try {
+    const findBoard = await Board.findById(boardId);
+    const newTask = findBoard.columns.find(
+      (column: Column) => column._id.toString() === colId,
+    );
+    const formattedSubtasks = subtasks.map((subtask) => ({
+      subtask: subtask.subtask,
+      status: subtask.status,
+      subId: subtask.subId,
+    }));
+
+    const usedTask = newTask.tasks.find(
+      (item: any) => item._id.toString() === taskId,
+    );
+
+    if (usedTask) {
+      usedTask.subtasks = formattedSubtasks;
+    } else {
+      newTask.tasks.push({
+        task: titleTask,
+        description,
+        subtasks: formattedSubtasks,
+        status,
+      });
+    }
+
+    await findBoard.save();
   } catch (error) {
     throw new Error("Error updating task " + error);
   }

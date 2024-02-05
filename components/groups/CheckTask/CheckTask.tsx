@@ -5,6 +5,8 @@ import Image from "next/image";
 import dots from "@/public/assets/icon-vertical-ellipsis.svg";
 import chevronDown from "@/public/assets/icon-chevron-down.svg";
 import check from "@/public/assets/icon-check.svg";
+import { updateTask } from "@/lib/actions/board.action";
+import Button from "@/components/ui/Button";
 
 interface Props {
   activeMenu: boolean;
@@ -12,7 +14,7 @@ interface Props {
   description: string;
   status: string;
   subtasks: Array<any>;
-  check: any;
+  id: string;
 }
 
 const CheckTask = ({
@@ -21,26 +23,32 @@ const CheckTask = ({
   description,
   status,
   subtasks,
+  id,
 }: Props) => {
-  const [statusClicked, setStatusClicked] = useState<boolean>(false);
-  const [activeStatus, setActiveStatus] = useState<any>();
-
-  const backdropRef = useRef<HTMLElement | any>();
   const dispatch = useAppDispatch();
-
-  const activeBoard = useAppSelector(
-    (state) => state.activeBoardSlice.activeBoard,
-  );
+  console.log(id);
   const isCheckTaskActive = useAppSelector(
     (state) => state.activeMenuSlice.checkTask,
   );
-
+  const activeBoard = useAppSelector(
+    (state) => state.activeBoardSlice.activeBoard,
+  );
   const allData = useAppSelector((state) => state.dataSlice.data);
   const data = allData.find((item) => item._id === activeBoard).columns;
+  console.log(data);
+  const activeCol = data.find((item: any) => {
+    console.log(item);
+    return item.tasks.find((task: any) => task._id === id)._id === id;
+  });
   const statusArr: Array<{ name: string; id: string }> = [];
   for (const element of data) {
     statusArr.push({ name: element.nameColumn, id: element._id });
   }
+  const [statusClicked, setStatusClicked] = useState<boolean>(false);
+  const [activeStatus, setActiveStatus] = useState<any>({
+    name: activeCol.nameColumn,
+    id: activeCol._id,
+  });
 
   // Subtasks
   const [subtaskStatus, setSubtaskStatus] = useState(subtasks);
@@ -53,17 +61,18 @@ const CheckTask = ({
     });
   };
   //
-
+  console.log(subtaskStatus);
+  const backdropRef = useRef<HTMLElement | any>();
   useEffect(() => {
-    const handler = (event: MouseEvent) => {
+    const handler = async (event: MouseEvent) => {
       if (isCheckTaskActive) {
         if (!backdropRef.current) return;
         else if (
           !backdropRef.current.contains(event.target) &&
           isCheckTaskActive
         ) {
-          dispatch({ type: "activeMenu/toggleCheckTask" });
           event.stopPropagation();
+          dispatch({ type: "activeMenu/toggleCheckTask" });
         }
       }
       return;
@@ -75,7 +84,18 @@ const CheckTask = ({
       document.removeEventListener("click", handler);
     };
   }, [isCheckTaskActive]);
-  console.log(activeStatus);
+
+  const saveTaskUpdate = async () => {
+    await updateTask(
+      activeBoard,
+      activeStatus.id,
+      id,
+      task,
+      description,
+      subtaskStatus,
+      activeStatus.name,
+    );
+  };
 
   return (
     <div
@@ -134,7 +154,7 @@ const CheckTask = ({
             className="input_text relative flex h-10 items-center"
             onClick={() => setStatusClicked((prevStatus) => !prevStatus)}
           >
-            <p>{activeStatus ? activeStatus.name : status}</p>
+            <p>{activeStatus.name}</p>
             <Image
               alt="chevron down"
               height={12}
@@ -163,6 +183,12 @@ const CheckTask = ({
             </ul>
           )}
         </div>
+        <Button
+          disabled={false}
+          onClick={saveTaskUpdate}
+          plus={false}
+          text="Save"
+        />
       </div>
     </div>
   );
