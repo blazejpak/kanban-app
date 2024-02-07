@@ -106,7 +106,7 @@ export async function newTask(
   columnId: string,
   titleTask: string,
   description: string,
-  subtasks: Array<{ subtask: string; status: boolean; subId: number }>,
+  subtasks: any,
   status: string,
 ) {
   try {
@@ -117,7 +117,7 @@ export async function newTask(
       (column: Column) => column._id.toString() === columnId,
     );
 
-    const formattedSubtasks = subtasks.map((subtask) => ({
+    const formattedSubtasks = subtasks.map((subtask: any) => ({
       subtask: subtask.subtask,
       status: subtask.status,
       subId: subtask.subId,
