@@ -10,9 +10,13 @@ interface Props {
 const DeleteBoard = ({ activeMenu }: Props) => {
   const dispatch = useAppDispatch();
 
+  const allData = useAppSelector((state) => state.dataSlice.data);
   const activePage = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
   );
+  const activeBoardName = allData.find(
+    (item: any) => item._id === activePage,
+  ).name;
 
   const deleteBoardHandler = async () => {
     await deleteBoard(activePage);
@@ -24,6 +28,8 @@ const DeleteBoard = ({ activeMenu }: Props) => {
     else dispatch({ type: "activeBoard/payloadBoard", payload: boards[0]._id });
   };
 
+  console.log(activeBoardName);
+
   return (
     <div
       className={`pointer-events-auto absolute left-[50%] top-[50%] z-[100] h-fit max-h-[80%] w-[340px] translate-x-[-50%]  translate-y-[-50%] overflow-y-auto rounded-md bg-white p-8 text-start opacity-100 dark:bg-[#2B2C37] sm:w-[480px]`}
@@ -32,8 +38,10 @@ const DeleteBoard = ({ activeMenu }: Props) => {
       <div className="flex h-full w-full flex-col gap-6 ">
         <h3 className=" text-lg font-bold text-red-500">Delete this board?</h3>
         <p>
-          Are you sure you want to delete the ‘Platform Launch’ board? This
-          action will remove all columns and tasks and cannot be reversed.
+          Are you sure you want to delete the{" "}
+          <span>{` '${activeBoardName}' `}</span>
+          board? This action will remove all columns and tasks and cannot be
+          reversed.
         </p>
         <div className="flex flex-col items-center justify-center gap-3 font-bold sm:flex-row">
           <button
