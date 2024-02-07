@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 import chevronDown from "@/public/assets/icon-chevron-down.svg";
 import Button from "../ui/Button";
-import { newTask } from "@/lib/actions/board.action";
+import { getBoard, newTask } from "@/lib/actions/board.action";
 
 const FormNewTask = () => {
   const dispatch = useAppDispatch();
@@ -67,6 +67,8 @@ const FormNewTask = () => {
       setFillSubtaskError("");
       setFillTitleError("");
 
+      const boards: any = await getBoard();
+      dispatch({ type: "dataDB/getData", payload: boards });
       dispatch({ type: "activeMenu/toggleNewTask" });
     }
   };

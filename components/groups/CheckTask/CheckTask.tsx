@@ -5,7 +5,7 @@ import Image from "next/image";
 import dots from "@/public/assets/icon-vertical-ellipsis.svg";
 import chevronDown from "@/public/assets/icon-chevron-down.svg";
 import check from "@/public/assets/icon-check.svg";
-import { updateTask } from "@/lib/actions/board.action";
+import { getBoard, updateTask } from "@/lib/actions/board.action";
 import Button from "@/components/ui/Button";
 
 interface Props {
@@ -27,6 +27,7 @@ const CheckTask = ({
 }: Props) => {
   const dispatch = useAppDispatch();
   console.log(id);
+
   const isCheckTaskActive = useAppSelector(
     (state) => state.activeMenuSlice.checkTask,
   );
@@ -35,11 +36,13 @@ const CheckTask = ({
   );
   const allData = useAppSelector((state) => state.dataSlice.data);
   const data = allData.find((item) => item._id === activeBoard).columns;
-  console.log(data);
   const activeCol = data.find((item: any) => {
-    console.log(item);
-    return item.tasks.find((task: any) => task._id === id)._id === id;
+    return item.tasks.find((task: any) => {
+      return task._id === id;
+    });
   });
+  console.log(activeCol._id);
+
   const statusArr: Array<{ name: string; id: string }> = [];
   for (const element of data) {
     statusArr.push({ name: element.nameColumn, id: element._id });
@@ -61,7 +64,7 @@ const CheckTask = ({
     });
   };
   //
-  console.log(subtaskStatus);
+
   const backdropRef = useRef<HTMLElement | any>();
   useEffect(() => {
     const handler = async (event: MouseEvent) => {
@@ -89,12 +92,17 @@ const CheckTask = ({
     await updateTask(
       activeBoard,
       activeStatus.id,
+      activeCol._id,
       id,
       task,
       description,
       subtaskStatus,
       activeStatus.name,
     );
+
+    const boards: any = await getBoard();
+    dispatch({ type: "dataDB/getData", payload: boards });
+    dispatch({ type: "activeMenu/toggleCheckTask" });
   };
 
   return (

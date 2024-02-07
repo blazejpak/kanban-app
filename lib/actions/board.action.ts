@@ -139,6 +139,7 @@ export async function newTask(
 export async function updateTask(
   boardId: string,
   colId: string,
+  oldColId: string,
   taskId: string,
   titleTask: string,
   description: string,
@@ -150,6 +151,10 @@ export async function updateTask(
     const newTask = findBoard.columns.find(
       (column: Column) => column._id.toString() === colId,
     );
+    const oldColTask = findBoard.columns.find(
+      (column: Column) => column._id.toString() === oldColId,
+    );
+
     const formattedSubtasks = subtasks.map((subtask) => ({
       subtask: subtask.subtask,
       status: subtask.status,
@@ -159,7 +164,8 @@ export async function updateTask(
     const usedTask = newTask.tasks.find(
       (item: any) => item._id.toString() === taskId,
     );
-
+    console.log(newTask);
+    console.log(oldColTask);
     if (usedTask) {
       usedTask.subtasks = formattedSubtasks;
     } else {
@@ -169,6 +175,9 @@ export async function updateTask(
         subtasks: formattedSubtasks,
         status,
       });
+      oldColTask.tasks = oldColTask.tasks.filter(
+        (item: any) => item._id.toString() !== taskId,
+      );
     }
 
     await findBoard.save();
