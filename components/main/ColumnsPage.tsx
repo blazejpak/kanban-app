@@ -23,8 +23,16 @@ const ColumnsPage = () => {
     status: string;
     _id: string;
   }
+
+  const activeMenu = useAppSelector(
+    (state) => state.activeMenuSlice.isActiveMenu,
+  );
   return (
-    <div className="flex flex-grow gap-6  pl-6 pt-20 ">
+    <div
+      className={`flex flex-grow gap-6  pl-6 pt-20 ${
+        activeMenu && "pl-[270px]"
+      }`}
+    >
       {activePageColumns.map((column: Column) => {
         return (
           <ul

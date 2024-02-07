@@ -17,9 +17,16 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       const boards: any = await getBoard();
+      console.log(boards);
       dispatch({ type: "dataDB/getData", payload: boards });
       if (boards.find((item: any) => item._id === pageLocal) === undefined) {
-        dispatch({ type: "activeBoard/payloadBoard", payload: boards[0]._id });
+        if (boards.length === 0)
+          dispatch({ type: "activeBoard/payloadBoard", payload: "" });
+        else
+          dispatch({
+            type: "activeBoard/payloadBoard",
+            payload: boards[0]._id,
+          });
       } else if (boards.length > 0 && !activePage && !pageLocal) {
         dispatch({ type: "activeBoard/payloadBoard", payload: boards[0]._id });
       } else if (pageLocal) {

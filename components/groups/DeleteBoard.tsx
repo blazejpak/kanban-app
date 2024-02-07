@@ -19,14 +19,14 @@ const DeleteBoard = ({ activeMenu }: Props) => {
     const boards: any = await getBoard();
     dispatch({ type: "dataDB/getData", payload: boards });
     dispatch({ type: "activeMenu/toggleDeleteBoard" });
-    dispatch({ type: "activeBoard/payloadBoard", payload: boards[0]._id });
+    if (boards.length === 0)
+      dispatch({ type: "activeBoard/payloadBoard", payload: "" });
+    else dispatch({ type: "activeBoard/payloadBoard", payload: boards[0]._id });
   };
 
   return (
     <div
-      className={`${
-        activeMenu && "sm:translate-x-[-75%]"
-      } pointer-events-auto absolute left-[50%] top-[50%] z-40 h-fit max-h-[80%] w-[340px] translate-x-[-50%]  translate-y-[-50%] overflow-y-auto rounded-md bg-white p-8 text-start opacity-100 dark:bg-[#2B2C37] sm:w-[480px]`}
+      className={`pointer-events-auto absolute left-[50%] top-[50%] z-[100] h-fit max-h-[80%] w-[340px] translate-x-[-50%]  translate-y-[-50%] overflow-y-auto rounded-md bg-white p-8 text-start opacity-100 dark:bg-[#2B2C37] sm:w-[480px]`}
     >
       {/* For new Board */}
       <div className="flex h-full w-full flex-col gap-6 ">

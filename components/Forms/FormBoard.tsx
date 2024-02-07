@@ -54,7 +54,11 @@ const FormBoard = () => {
       const boards: any = await getBoard();
       dispatch({ type: "dataDB/getData", payload: boards });
       dispatch({ type: "activeMenu/toggleForm" });
-
+      console.log(boards.slice(-1)._id);
+      dispatch({
+        type: "activeBoard/payloadBoard",
+        payload: boards.slice(-1)[0]._id,
+      });
       setFillBoardError("");
       setFillColumnError("");
     }
