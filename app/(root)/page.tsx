@@ -38,7 +38,7 @@ export default function Home() {
   }, []);
 
   return (
-    <section className={`relative flex min-h-full  flex-col `}>
+    <section className={`relative flex min-h-full w-full flex-col  `}>
       <HomePage />
       <TypeForms />
     </section>

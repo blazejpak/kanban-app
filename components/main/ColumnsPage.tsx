@@ -29,9 +29,9 @@ const ColumnsPage = () => {
   );
   return (
     <div
-      className={`flex flex-grow gap-6  pl-6 pt-20 ${
-        activeMenu && "pl-[270px]"
-      }`}
+      className={`flex min-w-full max-w-screen-md flex-grow gap-6 overflow-x-scroll pl-6 
+      
+      pt-20`}
     >
       {activePageColumns.map((column: Column) => {
         return (

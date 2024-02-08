@@ -10,6 +10,9 @@
   .input_text--label {
     @apply text-xs font-bold text-[#828FA3] first-letter:uppercase dark:text-white;
   }
+  .form_responsive {
+    @apply left-[50%] translate-x-[-50%] sm:left-[-20%] sm:w-[480px] sm:translate-x-[0] md:left-0 md:translate-x-[0] lg:left-[50%] lg:translate-x-[-50%];
+  }
 }
 
 html {

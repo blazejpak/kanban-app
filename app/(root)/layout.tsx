@@ -29,9 +29,9 @@ export default function RootLayout({
         <ProvideStore>
           <ProvidersTheme>
             <Navbar />
-            <main className="flex h-full ">
+            <main className="relative flex h-full w-full overflow-x-hidden">
               <LeftBar />
-              <section className=" w-full  overflow-x-auto">{children}</section>
+              <section className="w-full ">{children}</section>
             </main>
           </ProvidersTheme>
         </ProvideStore>
