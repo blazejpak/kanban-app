@@ -118,11 +118,11 @@ export async function newTask(
     );
 
     const formattedSubtasks = subtasks.map((subtask: any) => ({
-      subtask: subtask.subtask,
+      subtask: subtask.name,
       status: subtask.status,
       subId: subtask.subId,
     }));
-
+    console.log(formattedSubtasks);
     newTask.tasks.push({
       task: titleTask,
       description,
@@ -164,8 +164,7 @@ export async function updateTask(
     const usedTask = newTask.tasks.find(
       (item: any) => item._id.toString() === taskId,
     );
-    console.log(newTask);
-    console.log(oldColTask);
+
     if (usedTask) {
       usedTask.subtasks = formattedSubtasks;
     } else {

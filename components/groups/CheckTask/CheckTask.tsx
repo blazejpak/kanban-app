@@ -99,7 +99,7 @@ const CheckTask = ({
       subtaskStatus,
       activeStatus.name,
     );
-
+    console.log(subtaskStatus);
     const boards: any = await getBoard();
     dispatch({ type: "dataDB/getData", payload: boards });
     dispatch({ type: "activeMenu/toggleCheckTask" });
