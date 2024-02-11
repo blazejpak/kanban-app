@@ -1,6 +1,5 @@
 "use server";
 
-import { ObjectId } from "mongodb";
 import Board from "../models/board.model";
 import { connectToDB } from "../mongoose";
 
@@ -98,6 +97,29 @@ export async function editBoard(id: string, newBoardName: string) {
     await Board.updateOne({ _id: id }, { name: newBoardName });
   } catch (error: any) {
     throw new Error("Error editing Board " + error);
+  }
+}
+
+export async function deleteTask(
+  boardId: string,
+  colId: string,
+  taskId: string,
+) {
+  try {
+    await connectToDB();
+
+    const findBoard = await Board.findById(boardId);
+    const activeCol = findBoard.columns.find(
+      (item: any) => item._id.toString() === colId,
+    );
+
+    activeCol.tasks = activeCol.tasks.filter(
+      (item: any) => item._id.toString() !== taskId,
+    );
+
+    await findBoard.save();
+  } catch (error: any) {
+    throw new Error("Error creating Board " + error);
   }
 }
 

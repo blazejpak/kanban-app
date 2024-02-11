@@ -7,6 +7,7 @@ import chevronDown from "@/public/assets/icon-chevron-down.svg";
 import check from "@/public/assets/icon-check.svg";
 import { getBoard, updateTask } from "@/lib/actions/board.action";
 import Button from "@/components/ui/Button";
+import DeleteTask from "./DeleteTask";
 
 interface Props {
   activeMenu: boolean;
@@ -26,7 +27,12 @@ const CheckTask = ({
   id,
 }: Props) => {
   const dispatch = useAppDispatch();
-  console.log(id);
+
+  // Option Delete Task, Edit Task
+  const [optionsActive, setOptionsActive] = useState<boolean>(false);
+  const deleteTask = useAppSelector(
+    (state) => state.activeMenuSlice.deleteTask,
+  );
 
   const isCheckTaskActive = useAppSelector(
     (state) => state.activeMenuSlice.checkTask,
@@ -41,7 +47,6 @@ const CheckTask = ({
       return task._id === id;
     });
   });
-  console.log(activeCol._id);
 
   const statusArr: Array<{ name: string; id: string }> = [];
   for (const element of data) {
@@ -76,6 +81,10 @@ const CheckTask = ({
         ) {
           event.stopPropagation();
           dispatch({ type: "activeMenu/toggleCheckTask" });
+          dispatch({
+            type: "activeMenu/toggleDeleteTask",
+            payload: false,
+          });
         }
       }
       return;
@@ -99,7 +108,6 @@ const CheckTask = ({
       subtaskStatus,
       activeStatus.name,
     );
-    console.log(subtaskStatus);
     const boards: any = await getBoard();
     dispatch({ type: "dataDB/getData", payload: boards });
     dispatch({ type: "activeMenu/toggleCheckTask" });
@@ -110,12 +118,65 @@ const CheckTask = ({
       ref={backdropRef}
       className={`${
         activeMenu && " sm:translate-x-[-75%]"
-      } pointer-events-auto   absolute  left-[50%] top-[50%]   z-50  max-h-[80%] w-[340px] translate-x-[-50%] translate-y-[-50%] overflow-y-auto rounded-md bg-white p-8 text-start opacity-100 dark:bg-[#2B2C37] sm:w-[480px]`}
+      }   absolute  left-[50%] top-[50%]   z-50  max-h-[80%] w-[340px] translate-x-[-50%] translate-y-[-50%] overflow-y-auto overflow-x-hidden rounded-md bg-white p-8 text-start opacity-100 dark:bg-[#2B2C37] sm:w-[480px] ${
+        deleteTask ? "pointer-events-none " : "pointer-events-auto "
+      }`}
     >
       <div className="flex h-full w-full flex-col gap-6">
         <div className="flex items-center justify-between gap-3">
           <h3 className=" text-lg font-bold">{task}</h3>
-          <Image className="h-5 w-2" src={dots} alt="Edit tasks image." />
+          <div
+            className="relative"
+            onClick={() => {
+              setOptionsActive((prevState) => !prevState);
+            }}
+          >
+            <Image
+              className="h-5 w-2 cursor-pointer"
+              src={dots}
+              alt="Edit tasks image."
+            />
+            {/* DELETE AND EDIT MENU */}
+            {optionsActive && (
+              <nav className="absolute right-4 top-[110%] z-50 h-24 w-48 rounded-lg bg-[#fff] p-4 text-[#828FA3] shadow-md dark:bg-[#1F202B]">
+                <ul className="flex h-full w-full flex-col justify-center gap-3 text-sm font-medium">
+                  <li
+                    className="cursor-pointer"
+                    onClick={() => {
+                      dispatch({ type: "activeMenu/toggleEditTask" });
+                      dispatch({
+                        type: "activeBoard/payloadEditTask",
+                        payload: {
+                          boardId: activeBoard,
+                          taskId: id,
+                          colId: activeStatus.id,
+                        },
+                      });
+                      setOptionsActive(false);
+                      dispatch({ type: "activeMenu/toggleCheckTask" });
+                    }}
+                  >
+                    Edit Task
+                  </li>
+                  <li
+                    className="cursor-pointer text-red-500"
+                    onClick={() => {
+                      dispatch({
+                        type: "activeMenu/toggleDeleteTask",
+                        payload: true,
+                      });
+                      setOptionsActive(false);
+                    }}
+                  >
+                    Delete Task
+                  </li>
+                </ul>
+              </nav>
+            )}
+          </div>
+          {deleteTask && (
+            <DeleteTask task={task} taskId={id} colId={activeStatus.id} />
+          )}
         </div>
         <p className="text-xs font-medium leading-6 tracking-widest text-[#828FA3]">
           {description}
@@ -128,12 +189,14 @@ const CheckTask = ({
                 return (
                   <li
                     key={subtask.subId}
-                    className="flex cursor-pointer items-center gap-4 bg-[#1F202B] px-2 py-4"
+                    className="flex cursor-pointer items-center gap-4 rounded-md bg-[#F4F7FD] px-2 py-4 hover:bg-[#635FC7]/25 dark:bg-[#1F202B] dark:hover:bg-[#635FC7]/25"
                     onClick={() => handleChangeStatus(subtask.subId)}
                   >
                     <div
                       className={`relative h-4 min-w-[16px] border-[1px] border-[#828FA3]/50  ${
-                        subtask.status ? "bg-[#635FC7]" : "bg-[#2B2C37]"
+                        subtask.status
+                          ? "bg-[#635FC7]"
+                          : "bg-white dark:bg-[#2B2C37]"
                       }`}
                     >
                       {subtask.status && (
@@ -172,7 +235,7 @@ const CheckTask = ({
             />
           </div>
           {statusClicked && (
-            <ul className="top-[110%] z-[100] flex  h-fit w-full flex-col text-ellipsis rounded-lg bg-[#20212C]   py-6 outline-none placeholder:text-[#000112]/25 ">
+            <ul className="top-[110%] z-[100] flex  h-fit w-full flex-col text-ellipsis rounded-lg bg-white py-6   outline-none placeholder:text-[#000112]/25 dark:bg-[#20212C] ">
               {statusArr.map((item) => {
                 return (
                   <li

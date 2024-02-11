@@ -8,6 +8,8 @@ interface MenuActive {
   whatType: string;
   deleteBoard: boolean;
   editBoard: boolean;
+  deleteTask: boolean;
+  editTask: boolean;
   newTask: boolean;
   checkTask: boolean;
 }
@@ -18,6 +20,8 @@ const initialState: MenuActive = {
   whatType: "board",
   deleteBoard: false,
   editBoard: false,
+  deleteTask: false,
+  editTask: false,
   newTask: false,
   checkTask: false,
 };
@@ -41,6 +45,12 @@ export const activeMenuSlice = createSlice({
     toggleEditBoard: (state) => {
       state.editBoard = !state.editBoard;
     },
+    toggleDeleteTask: (state, action) => {
+      state.deleteTask = action.payload;
+    },
+    toggleEditTask: (state) => {
+      state.editTask = !state.editTask;
+    },
     toggleNewTask: (state) => {
       state.newTask = !state.newTask;
     },
@@ -58,6 +68,8 @@ export const {
   toggleEditBoard,
   toggleNewTask,
   toggleCheckTask,
+  toggleDeleteTask,
+  toggleEditTask,
 } = activeMenuSlice.actions;
 
 export default activeMenuSlice.reducer;

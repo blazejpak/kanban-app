@@ -1,5 +1,6 @@
 import { useAppSelector } from "@/store/hooks";
 import ColumnTask from "./ColumnTask";
+import { useEffect, useState } from "react";
 
 const ColumnsPage = () => {
   const data = useAppSelector((state) => state.dataSlice.data);
@@ -27,11 +28,12 @@ const ColumnsPage = () => {
   const activeMenu = useAppSelector(
     (state) => state.activeMenuSlice.isActiveMenu,
   );
+
   return (
     <div
-      className={`flex min-w-full max-w-screen-md flex-grow gap-6 overflow-x-scroll pl-6 
-      
-      pt-20`}
+      className={`flex flex-grow gap-6 overflow-x-auto  pl-6 pr-6 pt-20 ${
+        activeMenu && `ml-[255px] `
+      }`}
     >
       {activePageColumns.map((column: Column) => {
         return (

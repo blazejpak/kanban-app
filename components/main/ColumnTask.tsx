@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import CheckTask from "../groups/CheckTask/CheckTask";
 import { useEffect, useState } from "react";
+import EditTask from "../groups/CheckTask/EditTask";
 
 interface Task {
   task: string;
@@ -20,6 +21,11 @@ const ColumnTask = ({ task, description, status, subtasks, id }: Task) => {
   const checkTaskBox = useAppSelector(
     (state) => state.activeMenuSlice.checkTask,
   );
+  const editTaskBox = useAppSelector((state) => state.activeMenuSlice.editTask);
+  const editTaskData = useAppSelector(
+    (state) => state.activeBoardSlice.editTask,
+  );
+
   useEffect(() => {
     if (!checkTaskBox) setCheckTaskBoxId("");
   }, [checkTaskBox]);
@@ -53,6 +59,8 @@ const ColumnTask = ({ task, description, status, subtasks, id }: Task) => {
           id={checkTaskBoxId}
         />
       )}
+
+      {editTaskBox && <EditTask />}
     </div>
   );
 };

@@ -28,6 +28,7 @@ const TypeForms = () => {
   const checkTaskBox = useAppSelector(
     (state) => state.activeMenuSlice.checkTask,
   );
+  const editTaskBox = useAppSelector((state) => state.activeMenuSlice.editTask);
 
   useEffect(() => {
     const handler = (event: MouseEvent) => {
@@ -49,10 +50,13 @@ const TypeForms = () => {
   }, [activeForm]);
 
   const element = document.querySelector<any>("html");
-  if (activeForm || deleteBoard || editBoard || newTaskForm) {
+  if (activeForm || deleteBoard || editBoard || newTaskForm || editTaskBox) {
     element.style.pointerEvents = "none";
   }
-  if (!activeForm && !deleteBoard && !editBoard && !newTaskForm) {
+  if (
+    (!activeForm && !deleteBoard && !editBoard && !newTaskForm) ||
+    editTaskBox
+  ) {
     element.style.pointerEvents = "auto";
   }
 
@@ -97,6 +101,12 @@ const TypeForms = () => {
       )}
 
       {checkTaskBox && (
+        <>
+          <div className={`absolute z-30 h-full w-full bg-black/50`}></div>
+        </>
+      )}
+
+      {editTaskBox && (
         <>
           <div className={`absolute z-30 h-full w-full bg-black/50`}></div>
         </>
