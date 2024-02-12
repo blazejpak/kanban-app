@@ -1,10 +1,11 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, EventHandler, useEffect, useState } from "react";
 import removeIcon from "@/public/assets/icon-cross.svg";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 import chevronDown from "@/public/assets/icon-chevron-down.svg";
 import Button from "../ui/Button";
+import { editTask, getBoard } from "@/lib/actions/board.action";
 
 interface Subtasks {
   subtask: string;
@@ -35,13 +36,18 @@ const FormEditTask = () => {
     .columns.find((column: any) => column._id === dataIds.colId)
     .tasks.find((task: any) => task._id === dataIds.taskId);
 
+  console.log(dataIds.taskId);
+
   const dataCols = allData.find((item) => item._id === activeBoard).columns;
-  const statusArr: Array<{ name: string; id: string }> = [];
+  const statusArr: Array<any> = [];
+
   for (const element of dataCols) {
     statusArr.push({ name: element.nameColumn, id: element._id });
   }
 
-  const activeStatusData = statusArr.find((item) => item.id === dataIds.colId);
+  const activeStatusData: { name: string; id: string } = statusArr.find(
+    (item) => item.id === dataIds.colId,
+  );
 
   const [title, setTitile] = useState<string>(dataTask.task);
   const [descriptionText, setDescritpionText] = useState<string>(
@@ -62,13 +68,9 @@ const FormEditTask = () => {
     }
   }, [dataTask.subtasks]);
 
-  const [activeStatus, setActiveStatus] = useState(activeStatusData);
-  const [statusClicked, setStatusClicked] = useState<boolean>(false);
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
   const [fillSubtaskError, setFillSubtaskError] = useState<string>("");
   const [fillTitleError, setFillTitleError] = useState<string>("");
-
-  console.log(activeStatus);
 
   const newSubtaskHandle = () => {
     const newSubtask: Subtasks = {
@@ -93,6 +95,32 @@ const FormEditTask = () => {
   useEffect(() => {
     if (submitClicked && !title) setFillTitleError("Can't be empty.");
   }, [submitClicked]);
+
+  const submitEditForm = async (e: any) => {
+    e.preventDefault();
+
+    setSubmitClicked(true);
+    if (subtasks.find((subtask) => subtask.subtask === "") || !title) {
+      return;
+    } else {
+      await editTask(
+        activeBoard,
+        activeStatusData?.id,
+        dataIds.taskId,
+        title,
+        descriptionText,
+        subtasks,
+      );
+      console.log(subtasks);
+      setSubmitClicked(false);
+      setFillSubtaskError("");
+      setFillTitleError("");
+
+      const boards: any = await getBoard();
+      dispatch({ type: "dataDB/getData", payload: boards });
+      dispatch({ type: "activeMenu/toggleEditTask" });
+    }
+  };
 
   return (
     <form className="mb-6 flex flex-col gap-6">
@@ -194,42 +222,21 @@ const FormEditTask = () => {
         </button>
       </div>
 
-      {/* TODO */}
-      <div className="relative  flex flex-col gap-2">
-        <label className="input_text--label">status</label>
-        <div
-          className="input_text relative flex h-10 items-center"
-          onClick={() => setStatusClicked((prevStatus) => !prevStatus)}
-        >
-          <p>{activeStatus?.name}</p>
-          <Image
-            alt="chevron down"
-            height={12}
-            width={12}
-            src={chevronDown}
-            className="absolute right-4 top-[50%] translate-y-[-50%]"
-          />
-        </div>
-        {statusClicked && (
-          <ul className="  flex  h-fit w-full flex-col  rounded-lg bg-[#20212C]   py-6 outline-none placeholder:text-[#000112]/25 ">
-            {statusArr.map((item) => {
-              return (
-                <li
-                  key={item.id}
-                  value={item.name}
-                  className="cursor-pointer px-4 py-1 text-[#828FA3] first-letter:uppercase hover:brightness-200 "
-                  onClick={() => {
-                    setActiveStatus(item);
-                  }}
-                >
-                  {item.name}
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div>
-      <Button disabled={false} onClick={() => {}} plus={false} text="Edit" />
+      <Button
+        disabled={false}
+        onClick={submitEditForm}
+        plus={false}
+        text="Edit"
+      />
+      <button
+        type="button"
+        className="flex w-full items-center   justify-center rounded-3xl bg-[#635FC71A] px-4 py-2 font-bold text-[#635FC7] transition-all hover:bg-[#635FC740] dark:bg-white dark:hover:bg-white/75 "
+        onClick={() => {
+          dispatch({ type: "activeMenu/toggleEditTask" });
+        }}
+      >
+        Close
+      </button>
     </form>
   );
 };

@@ -206,3 +206,45 @@ export async function updateTask(
     throw new Error("Error updating task " + error);
   }
 }
+
+export async function editTask(
+  id: string,
+  columnId: string,
+  taskId: string,
+  titleTask: string,
+  description: string,
+  subtasks: any,
+) {
+  try {
+    await connectToDB();
+
+    const findBoard = await Board.findById(id);
+
+    const findCol = findBoard.columns.find(
+      (column: Column) => column._id.toString() === columnId,
+    );
+
+    let findTask = findCol.tasks.find(
+      (task: any) => task._id.toString() === taskId,
+    );
+
+    const formattedSubtasks = subtasks.map((subtask: any) => ({
+      subtask: subtask.subtask,
+      status: subtask.status,
+      subId: subtask.subId,
+    }));
+
+    console.log(findTask);
+
+    if (findTask) {
+      findTask.task = titleTask;
+      findTask.description = description;
+      findTask.subtasks = formattedSubtasks;
+      findTask.status = findTask.status;
+    }
+
+    await findBoard.save();
+  } catch (error) {
+    throw new Error("Error creating new task " + error);
+  }
+}

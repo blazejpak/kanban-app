@@ -90,10 +90,10 @@ const CheckTask = ({
       return;
     };
 
-    document.addEventListener("click", handler, true);
+    document.addEventListener("mousedown", handler, true);
 
     return () => {
-      document.removeEventListener("click", handler);
+      document.removeEventListener("mousedown", handler);
     };
   }, [isCheckTaskActive]);
 

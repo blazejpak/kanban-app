@@ -22,9 +22,6 @@ const ColumnTask = ({ task, description, status, subtasks, id }: Task) => {
     (state) => state.activeMenuSlice.checkTask,
   );
   const editTaskBox = useAppSelector((state) => state.activeMenuSlice.editTask);
-  const editTaskData = useAppSelector(
-    (state) => state.activeBoardSlice.editTask,
-  );
 
   useEffect(() => {
     if (!checkTaskBox) setCheckTaskBoxId("");
