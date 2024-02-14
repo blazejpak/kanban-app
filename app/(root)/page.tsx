@@ -17,7 +17,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       const boards: any = await getBoard();
-      console.log(boards);
+
       dispatch({ type: "dataDB/getData", payload: boards });
       if (boards.find((item: any) => item._id === pageLocal) === undefined) {
         if (boards.length === 0)

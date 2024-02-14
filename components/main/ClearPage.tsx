@@ -14,7 +14,7 @@ const ClearPage = () => {
     textButton = `+ Add New Column`;
   }
   return (
-    <div className=" flex  flex-grow flex-col items-center  justify-center gap-4 ">
+    <div className=" flex  flex-grow flex-col items-center justify-center gap-4 p-2 ">
       <h2 className="text-lg font-bold text-[#828FA3] ">{infoParagraph}</h2>
       <Button
         onClick={() => {

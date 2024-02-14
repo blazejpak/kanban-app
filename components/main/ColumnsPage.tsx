@@ -32,7 +32,7 @@ const ColumnsPage = () => {
   return (
     <div
       className={`flex flex-grow gap-6 overflow-x-auto  pl-6 pr-6 pt-20 ${
-        activeMenu && `ml-[255px] `
+        activeMenu && `sm:ml-[255px] `
       }`}
     >
       {activePageColumns.map((column: Column) => {

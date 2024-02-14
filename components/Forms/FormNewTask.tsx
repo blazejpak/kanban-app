@@ -62,7 +62,6 @@ const FormNewTask = () => {
         subtasks,
         activeStatus.name,
       );
-      console.log(subtasks);
       setSubmitClicked(false);
       setFillSubtaskError("");
       setFillTitleError("");

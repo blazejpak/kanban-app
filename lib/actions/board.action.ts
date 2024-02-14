@@ -234,8 +234,6 @@ export async function editTask(
       subId: subtask.subId,
     }));
 
-    console.log(findTask);
-
     if (findTask) {
       findTask.task = titleTask;
       findTask.description = description;

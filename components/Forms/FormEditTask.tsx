@@ -3,7 +3,6 @@ import removeIcon from "@/public/assets/icon-cross.svg";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
-import chevronDown from "@/public/assets/icon-chevron-down.svg";
 import Button from "../ui/Button";
 import { editTask, getBoard } from "@/lib/actions/board.action";
 
@@ -22,7 +21,6 @@ interface Task {
 }
 
 const FormEditTask = () => {
-  // TODO add to board action
   const dispatch = useAppDispatch();
   const dataIds = useAppSelector((state) => state.activeBoardSlice.editTask);
 
@@ -35,8 +33,6 @@ const FormEditTask = () => {
     .find((item) => item._id === activeBoard)
     .columns.find((column: any) => column._id === dataIds.colId)
     .tasks.find((task: any) => task._id === dataIds.taskId);
-
-  console.log(dataIds.taskId);
 
   const dataCols = allData.find((item) => item._id === activeBoard).columns;
   const statusArr: Array<any> = [];
