@@ -43,7 +43,7 @@ const LeftBar = () => {
               checkTaskBox ||
               newTaskForm ||
               editTaskBox) &&
-            "brightness-50"
+            "dark:brightness-50"
           } absolute z-30 hidden h-full w-64 flex-col justify-between border-r-[1px] border-[#E4EBFA] bg-[#fff] dark:border-[#3E3F4E] dark:bg-[#2B2C37] sm:flex`}
         >
           {/* LOGO */}
