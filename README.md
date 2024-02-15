@@ -10,7 +10,7 @@ Fully responsive Kanban task management web app, connected with MongoDB.
 
 ## Demo
 
-n-app-blazejpak.vercel.app
+[Kanban-app-blazejpak.vercel.app](https://kanban-app-blazejpak.vercel.app/)
 
 
 ## Tech Stack
