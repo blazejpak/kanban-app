@@ -7,6 +7,7 @@ import { ProvideStore } from "@/store/provider";
 import ProvidersTheme from "@/components/theme/ProvidersTheme";
 
 import LeftBar from "@/components/shared/LeftBar";
+import { useState } from "react";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 

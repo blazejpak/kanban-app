@@ -11,7 +11,7 @@
     @apply text-xs font-bold text-[#828FA3] first-letter:uppercase dark:text-white;
   }
   .form_responsive {
-    @apply left-[50%] translate-x-[-50%] sm:left-[-20%] sm:w-[480px] sm:translate-x-[0] md:left-0 md:translate-x-[0] lg:left-[50%] lg:translate-x-[-50%];
+    @apply left-[50%] top-[50%] w-[340px] translate-x-[-50%]  translate-y-[-50%] sm:left-[-20%] sm:w-[480px] sm:translate-x-[50%] md:left-0 lg:left-[50%] lg:translate-x-[-50%];
   }
 }
 

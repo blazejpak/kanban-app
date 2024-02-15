@@ -4,9 +4,13 @@ import { useState } from "react";
 
 import { editBoard, getBoard } from "@/lib/actions/board.action";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { LineWave } from "react-loader-spinner";
 
 const FormEditBoard = () => {
   const dispatch = useAppDispatch();
+
+  const [spinner, setSpinner] = useState<boolean>(false);
+
   const activePage = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
   );
@@ -19,8 +23,10 @@ const FormEditBoard = () => {
 
   const submitForm = async (e: any) => {
     e.preventDefault();
+    setSpinner(true);
     //TODO error handling
     if (!boardName) {
+      setSpinner(false);
       setFillNameError(true);
       return;
     } else {
@@ -28,6 +34,7 @@ const FormEditBoard = () => {
       const boards: any = await getBoard();
       dispatch({ type: "dataDB/getData", payload: boards });
       dispatch({ type: "activeMenu/toggleEditBoard" });
+      setSpinner(false);
     }
   };
 
@@ -84,6 +91,17 @@ const FormEditBoard = () => {
       </div>
 
       <div className="flex flex-col gap-4">
+        {spinner && (
+          <div className="self-center">
+            <LineWave
+              visible={true}
+              height="100"
+              width="100"
+              color="#635FC7"
+              ariaLabel="line-wave-loading"
+            />
+          </div>
+        )}
         <button
           type="submit"
           className="flex w-full  items-center justify-center rounded-3xl bg-[#635FC7] px-4 py-2 font-bold text-white transition-all hover:bg-[#A8A4FF] "

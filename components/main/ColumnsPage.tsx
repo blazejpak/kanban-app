@@ -1,8 +1,8 @@
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import ColumnTask from "./ColumnTask";
-import { useEffect, useState } from "react";
 
 const ColumnsPage = () => {
+  const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.dataSlice.data);
   const activeBoard = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
@@ -29,9 +29,14 @@ const ColumnsPage = () => {
     (state) => state.activeMenuSlice.isActiveMenu,
   );
 
+  const addColumnHandle = () => {
+    dispatch({ type: "activeMenu/typeForm", payload: "column" });
+    dispatch({ type: "activeMenu/toggleForm" });
+  };
+
   return (
     <div
-      className={`flex flex-grow gap-6 overflow-x-auto  pl-6 pr-6 pt-20 ${
+      className={`flex max-h-[100dvh] flex-grow gap-6 overflow-x-auto overflow-y-hidden pl-6 pr-6 pt-20 ${
         activeMenu && `sm:ml-[255px] `
       }`}
     >
@@ -39,7 +44,7 @@ const ColumnsPage = () => {
         return (
           <ul
             key={column._id}
-            className="flex min-w-[280px] max-w-[300px] flex-col gap-5 pt-6"
+            className="flex  min-w-[280px] max-w-[300px] flex-col gap-5  overflow-y-auto pt-6"
           >
             <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-[#828FA3]">
               {`${column.nameColumn} (${column.tasks.length})`}
@@ -58,6 +63,12 @@ const ColumnsPage = () => {
           </ul>
         );
       })}
+      <div
+        className="flex h-[80dvh] min-w-[280px] cursor-pointer items-center justify-center self-center rounded bg-[#E9EFFA] dark:bg-[#20212C] dark:brightness-110"
+        onClick={addColumnHandle}
+      >
+        <p className="text-2xl text-[#828FA3]">+ New Column</p>
+      </div>
     </div>
   );
 };

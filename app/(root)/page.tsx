@@ -4,7 +4,8 @@ import HomePage from "@/components/main/HomePage";
 import TypeForms from "@/components/main/TypeForms";
 import { getBoard } from "@/lib/actions/board.action";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -37,9 +38,29 @@ export default function Home() {
     fetchData();
   }, []);
 
+  const [spinner, setSpinner] = useState<boolean>(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setSpinner(false);
+    }, 1000);
+  }, []);
+
   return (
     <section className={`relative flex min-h-full w-full flex-col  `}>
-      <HomePage />
+      {spinner ? (
+        <div className="flex h-screen w-full items-center justify-center ">
+          <RotatingLines
+            visible={true}
+            width="180"
+            strokeColor="#635FC7"
+            strokeWidth="5"
+            animationDuration="0.75"
+            ariaLabel="rotating-lines-loading"
+          />
+        </div>
+      ) : (
+        <HomePage />
+      )}
       <TypeForms />
     </section>
   );

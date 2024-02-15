@@ -6,12 +6,14 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import chevronDown from "@/public/assets/icon-chevron-down.svg";
 import Button from "../ui/Button";
 import { getBoard, newTask } from "@/lib/actions/board.action";
+import { LineWave } from "react-loader-spinner";
 
 const FormNewTask = () => {
   const dispatch = useAppDispatch();
   const activeBoard = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
   );
+  const [spinner, setSpinner] = useState<boolean>(false);
 
   const allData = useAppSelector((state) => state.dataSlice.data);
   const data = allData.find((item) => item._id === activeBoard).columns;
@@ -50,8 +52,10 @@ const FormNewTask = () => {
 
   const submitTaskHandle = async (e: any) => {
     e.preventDefault();
+    setSpinner(true);
     setSubmitClicked(true);
     if (subtasks.find((subtask) => subtask.name === "") || !title) {
+      setSpinner(false);
       return;
     } else {
       await newTask(
@@ -69,6 +73,7 @@ const FormNewTask = () => {
       const boards: any = await getBoard();
       dispatch({ type: "dataDB/getData", payload: boards });
       dispatch({ type: "activeMenu/toggleNewTask" });
+      setSpinner(false);
     }
   };
 
@@ -210,6 +215,17 @@ const FormNewTask = () => {
           </ul>
         )}
       </div>
+      {spinner && (
+        <div className="self-center">
+          <LineWave
+            visible={true}
+            height="100"
+            width="100"
+            color="#635FC7"
+            ariaLabel="line-wave-loading"
+          />
+        </div>
+      )}
       <Button
         disabled={false}
         onClick={submitTaskHandle}

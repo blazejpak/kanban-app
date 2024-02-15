@@ -40,7 +40,7 @@ const AddNewTask = ({ activeMenu }: Props) => {
     // TODO styling for forms
     <div
       ref={backdropRef}
-      className={` pointer-events-auto absolute left-[50%] top-[50%] z-40 max-h-[80%] w-[340px] translate-x-[-50%] translate-y-[-50%] overflow-y-auto    rounded-md bg-white   p-8  text-start  opacity-100 dark:bg-[#2B2C37] sm:left-[-20%] sm:w-[480px] sm:translate-x-[0] md:left-0 md:translate-x-[0] lg:left-[50%] lg:translate-x-[-50%]`}
+      className={` form_responsive pointer-events-auto  absolute left-[50%] top-[50%]     z-40 max-h-[80%]   w-[340px]  translate-x-[-50%]  translate-y-[-50%] overflow-y-auto rounded-md bg-white p-8 text-start opacity-100  dark:bg-[#2B2C37] sm:left-[-20%] sm:w-[480px] sm:translate-x-[50%] md:left-0 lg:left-[50%] lg:translate-x-[-50%]`}
     >
       {/* For new Board */}
       <div className="flex h-full w-full flex-col">

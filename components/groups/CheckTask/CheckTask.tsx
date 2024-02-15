@@ -8,6 +8,7 @@ import check from "@/public/assets/icon-check.svg";
 import { getBoard, updateTask } from "@/lib/actions/board.action";
 import Button from "@/components/ui/Button";
 import DeleteTask from "./DeleteTask";
+import { LineWave } from "react-loader-spinner";
 
 interface Props {
   activeMenu: boolean;
@@ -18,15 +19,10 @@ interface Props {
   id: string;
 }
 
-const CheckTask = ({
-  activeMenu,
-  task,
-  description,
-  status,
-  subtasks,
-  id,
-}: Props) => {
+const CheckTask = ({ activeMenu, task, description, subtasks, id }: Props) => {
   const dispatch = useAppDispatch();
+
+  const [spinner, setSpinner] = useState<boolean>(false);
 
   // Option Delete Task, Edit Task
   const [optionsActive, setOptionsActive] = useState<boolean>(false);
@@ -98,6 +94,7 @@ const CheckTask = ({
   }, [isCheckTaskActive]);
 
   const saveTaskUpdate = async () => {
+    setSpinner(true);
     await updateTask(
       activeBoard,
       activeStatus.id,
@@ -111,13 +108,14 @@ const CheckTask = ({
     const boards: any = await getBoard();
     dispatch({ type: "dataDB/getData", payload: boards });
     dispatch({ type: "activeMenu/toggleCheckTask" });
+    setSpinner(false);
   };
 
   return (
     <div
       ref={backdropRef}
       className={`${
-        activeMenu && " sm:translate-x-[-75%]"
+        activeMenu && " sm:translate-x-[-50%]"
       }   absolute  left-[50%] top-[50%]   z-50  max-h-[80%] w-[340px] translate-x-[-50%] translate-y-[-50%] overflow-y-auto overflow-x-hidden rounded-md bg-white p-8 text-start opacity-100 dark:bg-[#2B2C37] sm:w-[480px] ${
         deleteTask ? "pointer-events-none " : "pointer-events-auto "
       }`}
@@ -254,6 +252,17 @@ const CheckTask = ({
             </ul>
           )}
         </div>
+        {spinner && (
+          <div className="self-center">
+            <LineWave
+              visible={true}
+              height="100"
+              width="100"
+              color="#635FC7"
+              ariaLabel="line-wave-loading"
+            />
+          </div>
+        )}
         <Button
           disabled={false}
           onClick={saveTaskUpdate}
