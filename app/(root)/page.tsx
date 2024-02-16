@@ -9,6 +9,8 @@ import { RotatingLines } from "react-loader-spinner";
 
 export default function Home() {
   const dispatch = useAppDispatch();
+  const [spinner, setSpinner] = useState<boolean>(true);
+
   const activePage = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
   );
@@ -16,6 +18,7 @@ export default function Home() {
   const pageLocal = localStorage.getItem("activePage");
 
   useEffect(() => {
+    setSpinner(true);
     const fetchData = async () => {
       const boards: any = await getBoard();
 
@@ -33,17 +36,17 @@ export default function Home() {
       } else if (pageLocal) {
         dispatch({ type: "activeBoard/payloadBoard", payload: pageLocal });
       }
+      setSpinner(false);
     };
 
     fetchData();
   }, []);
 
-  const [spinner, setSpinner] = useState<boolean>(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setSpinner(false);
-    }, 1000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setSpinner(false);
+  //   }, 1000);
+  // }, []);
 
   return (
     <section className={`relative flex min-h-full w-full flex-col  `}>
