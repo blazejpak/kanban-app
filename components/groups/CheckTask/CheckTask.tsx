@@ -233,13 +233,13 @@ const CheckTask = ({ activeMenu, task, description, subtasks, id }: Props) => {
             />
           </div>
           {statusClicked && (
-            <ul className="top-[110%] z-[100] flex  h-fit w-full flex-col text-ellipsis rounded-lg bg-white py-6   outline-none placeholder:text-[#000112]/25 dark:bg-[#20212C] ">
+            <ul className="top-[110%] z-[100] flex  h-fit w-full flex-col text-ellipsis rounded-lg bg-[#F4F7FD]    py-6 outline-none placeholder:text-[#000112]/25  dark:bg-[#20212C] ">
               {statusArr.map((item) => {
                 return (
                   <li
                     key={item.id}
                     value={item.name}
-                    className="cursor-pointer px-4 py-1 text-[#828FA3] first-letter:uppercase hover:brightness-200 "
+                    className="cursor-pointer px-4 py-1 text-[#828FA3] first-letter:uppercase hover:brightness-50 dark:hover:brightness-200"
                     onClick={() => {
                       setActiveStatus({ name: item.name, id: item.id });
                       setStatusClicked((prevStatus) => !prevStatus);
