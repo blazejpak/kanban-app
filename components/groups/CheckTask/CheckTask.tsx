@@ -23,6 +23,7 @@ const CheckTask = ({ activeMenu, task, description, subtasks, id }: Props) => {
   const dispatch = useAppDispatch();
 
   const [spinner, setSpinner] = useState<boolean>(false);
+  const [submitClicked, setSubmitClicked] = useState<boolean>(false);
 
   // Option Delete Task, Edit Task
   const [optionsActive, setOptionsActive] = useState<boolean>(false);
@@ -37,7 +38,7 @@ const CheckTask = ({ activeMenu, task, description, subtasks, id }: Props) => {
     (state) => state.activeBoardSlice.activeBoard,
   );
   const allData = useAppSelector((state) => state.dataSlice.data);
-  const data = allData.find((item) => item._id === activeBoard).columns;
+  const data = allData.find((item: any) => item._id === activeBoard).columns;
   const activeCol = data.find((item: any) => {
     return item.tasks.find((task: any) => {
       return task._id === id;
@@ -93,22 +94,32 @@ const CheckTask = ({ activeMenu, task, description, subtasks, id }: Props) => {
     };
   }, [isCheckTaskActive]);
 
-  const saveTaskUpdate = async () => {
-    setSpinner(true);
-    await updateTask(
-      activeBoard,
-      activeStatus.id,
-      activeCol._id,
-      id,
-      task,
-      description,
-      subtaskStatus,
-      activeStatus.name,
-    );
-    const boards: any = await getBoard();
-    dispatch({ type: "dataDB/getData", payload: boards });
-    dispatch({ type: "activeMenu/toggleCheckTask" });
-    setSpinner(false);
+  const saveTaskUpdate = async (e: any) => {
+    e.preventDefault();
+    try {
+      if (!submitClicked) {
+        setSubmitClicked(true);
+        setSpinner(true);
+        await updateTask(
+          activeBoard,
+          activeStatus.id,
+          activeCol._id,
+          id,
+          task,
+          description,
+          subtaskStatus,
+          activeStatus.name,
+        );
+        const boards: any = await getBoard();
+        dispatch({ type: "dataDB/getData", payload: boards });
+        dispatch({ type: "activeMenu/toggleCheckTask" });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSpinner(false);
+      setSubmitClicked(false);
+    }
   };
 
   return (

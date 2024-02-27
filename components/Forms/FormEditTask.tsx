@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 import Button from "../ui/Button";
 import { editTask, getBoard } from "@/lib/actions/board.action";
+import { LineWave } from "react-loader-spinner";
 
 interface Subtasks {
   subtask: string;
@@ -65,6 +66,8 @@ const FormEditTask = () => {
   }, [dataTask.subtasks]);
 
   const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+  const [spinner, setSpinner] = useState<boolean>(false);
+
   const [fillSubtaskError, setFillSubtaskError] = useState<string>("");
   const [fillTitleError, setFillTitleError] = useState<string>("");
 
@@ -94,27 +97,37 @@ const FormEditTask = () => {
 
   const submitEditForm = async (e: any) => {
     e.preventDefault();
+    try {
+      if (subtasks.find((subtask) => subtask.subtask === "") || !title) {
+        if (subtasks.find((subtask) => subtask.subtask === ""))
+          setFillSubtaskError("Can't be empty.");
+        if (!title) setFillTitleError("Can't be empty.");
 
-    setSubmitClicked(true);
-    if (subtasks.find((subtask) => subtask.subtask === "") || !title) {
-      return;
-    } else {
-      await editTask(
-        activeBoard,
-        activeStatusData?.id,
-        dataIds.taskId,
-        title,
-        descriptionText,
-        subtasks,
-      );
-      console.log(subtasks);
+        return;
+      } else if (!submitClicked) {
+        setSpinner(true);
+        setSubmitClicked(true);
+        await editTask(
+          activeBoard,
+          activeStatusData?.id,
+          dataIds.taskId,
+          title,
+          descriptionText,
+          subtasks,
+        );
+        console.log(subtasks);
+        setFillSubtaskError("");
+        setFillTitleError("");
+
+        const boards: any = await getBoard();
+        dispatch({ type: "dataDB/getData", payload: boards });
+        dispatch({ type: "activeMenu/toggleEditTask" });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSpinner(false);
       setSubmitClicked(false);
-      setFillSubtaskError("");
-      setFillTitleError("");
-
-      const boards: any = await getBoard();
-      dispatch({ type: "dataDB/getData", payload: boards });
-      dispatch({ type: "activeMenu/toggleEditTask" });
     }
   };
 
@@ -224,6 +237,17 @@ const FormEditTask = () => {
         plus={false}
         text="Edit"
       />
+      {spinner && (
+        <div className="self-center">
+          <LineWave
+            visible={true}
+            height="100"
+            width="100"
+            color="#635FC7"
+            ariaLabel="line-wave-loading"
+          />
+        </div>
+      )}
       <button
         type="button"
         className="flex w-full items-center   justify-center rounded-3xl bg-[#635FC71A] px-4 py-2 font-bold text-[#635FC7] transition-all hover:bg-[#635FC740] dark:bg-white dark:hover:bg-white/75 "

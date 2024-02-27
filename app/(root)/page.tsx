@@ -42,12 +42,6 @@ export default function Home() {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setSpinner(false);
-  //   }, 1000);
-  // }, []);
-
   return (
     <section className={`relative flex min-h-full w-full flex-col  `}>
       {spinner ? (

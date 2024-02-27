@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 import removeIcon from "@/public/assets/icon-cross.svg";
 import { createBoard, getBoard } from "@/lib/actions/board.action";
@@ -11,6 +11,7 @@ import { LineWave } from "react-loader-spinner";
 const FormBoard = () => {
   const dispatch = useAppDispatch();
   const [spinner, setSpinner] = useState<boolean>(false);
+  const [submitClicked, setSubmitClicked] = useState<boolean>(false);
 
   const [fillColumnError, setFillColumnError] = useState<string>("");
   const [fillBoardError, setFillBoardError] = useState<string>("");
@@ -37,35 +38,42 @@ const FormBoard = () => {
     setColumns(columns.filter((column) => column.id !== index));
   };
 
-  const submitForm = async (e: any) => {
+  const submitForm = async (e: FormEvent) => {
     e.preventDefault();
-    setSpinner(true);
-    const boardNameClone = boardName.toLowerCase();
-    const columnsName = columns
-      .map((column) => column.name.toLowerCase())
-      .filter((item) => item !== "");
 
-    if (!boardNameClone) {
-      setFillBoardError("Can't be empty.");
-      setSpinner(false);
-      return;
-    }
-    if (data.find((item) => item.name === boardNameClone)) {
-      setSpinner(false);
-      setFillBoardError("This Board Name have already exist.");
-      return;
-    } else {
-      await createBoard(boardNameClone, ...columnsName);
-      const boards: any = await getBoard();
-      dispatch({ type: "dataDB/getData", payload: boards });
-      dispatch({ type: "activeMenu/toggleForm" });
-      console.log(boards.slice(-1)._id);
-      dispatch({
-        type: "activeBoard/payloadBoard",
-        payload: boards.slice(-1)[0]._id,
-      });
-      setFillBoardError("");
-      setFillColumnError("");
+    try {
+      const boardNameClone = boardName.toLowerCase();
+      const columnsName = columns
+        .map((column) => column.name.toLowerCase())
+        .filter((item) => item !== "");
+
+      if (!boardNameClone) {
+        setFillBoardError("Can't be empty.");
+        return;
+      }
+      if (data.find((item) => item.name === boardNameClone)) {
+        setFillBoardError("This Board Name have already exist.");
+        return;
+      } else if (!submitClicked) {
+        setSubmitClicked(true);
+        setSpinner(true);
+
+        await createBoard(boardNameClone, ...columnsName);
+        const boards: any = await getBoard();
+        dispatch({ type: "dataDB/getData", payload: boards });
+        dispatch({ type: "activeMenu/toggleForm" });
+        console.log(boards.slice(-1)._id);
+        dispatch({
+          type: "activeBoard/payloadBoard",
+          payload: boards.slice(-1)[0]._id,
+        });
+        setFillBoardError("");
+        setFillColumnError("");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmitClicked(false);
       setSpinner(false);
     }
   };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 import { addNewColumn, getBoard } from "@/lib/actions/board.action";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -10,6 +10,7 @@ const FormColumn = () => {
   const dispatch = useAppDispatch();
 
   const [spinner, setSpinner] = useState<boolean>(false);
+  const [submitClicked, setSubmitClicked] = useState<boolean>(false);
 
   const activePage = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
@@ -20,20 +21,25 @@ const FormColumn = () => {
 
   const [column, setColumn] = useState<string>("Done");
 
-  const submitForm = async (e: any) => {
+  const submitForm = async (e: FormEvent) => {
     e.preventDefault();
-    setSpinner(true);
-
-    if (column === "") {
-      setSpinner(false);
-      setFillColumnError(true);
-      return;
-    } else {
-      setFillColumnError(false);
-      await addNewColumn(activePage, column);
-      const boards: any = await getBoard();
-      dispatch({ type: "dataDB/getData", payload: boards });
-      dispatch({ type: "activeMenu/toggleForm" });
+    try {
+      if (column === "") {
+        setFillColumnError(true);
+        return;
+      } else if (!submitClicked) {
+        setSubmitClicked(true);
+        setSpinner(true);
+        setFillColumnError(false);
+        await addNewColumn(activePage, column);
+        const boards: any = await getBoard();
+        dispatch({ type: "dataDB/getData", payload: boards });
+        dispatch({ type: "activeMenu/toggleForm" });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmitClicked(false);
       setSpinner(false);
     }
   };

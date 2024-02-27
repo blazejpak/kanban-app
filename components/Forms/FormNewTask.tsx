@@ -52,28 +52,37 @@ const FormNewTask = () => {
 
   const submitTaskHandle = async (e: any) => {
     e.preventDefault();
-    setSpinner(true);
-    setSubmitClicked(true);
-    if (subtasks.find((subtask) => subtask.name === "") || !title) {
-      setSpinner(false);
-      return;
-    } else {
-      await newTask(
-        activeBoard,
-        activeStatus.id,
-        title,
-        descriptionText,
-        subtasks,
-        activeStatus.name,
-      );
-      setSubmitClicked(false);
-      setFillSubtaskError("");
-      setFillTitleError("");
 
-      const boards: any = await getBoard();
-      dispatch({ type: "dataDB/getData", payload: boards });
-      dispatch({ type: "activeMenu/toggleNewTask" });
+    try {
+      if (subtasks.find((subtask) => subtask.name === "") || !title) {
+        if (subtasks.find((subtask) => subtask.name === ""))
+          setFillSubtaskError("Can't be empty.");
+        if (!title) setFillTitleError("Can't be empty.");
+        return;
+      } else if (!submitClicked) {
+        setSubmitClicked(true);
+        setSpinner(true);
+
+        await newTask(
+          activeBoard,
+          activeStatus.id,
+          title,
+          descriptionText,
+          subtasks,
+          activeStatus.name,
+        );
+        setFillSubtaskError("");
+        setFillTitleError("");
+
+        const boards: any = await getBoard();
+        dispatch({ type: "dataDB/getData", payload: boards });
+        dispatch({ type: "activeMenu/toggleNewTask" });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
       setSpinner(false);
+      setSubmitClicked(false);
     }
   };
 
@@ -90,7 +99,9 @@ const FormNewTask = () => {
         <input
           id="title"
           type="text"
-          className={`$ input_text h-10 w-full `}
+          className={`${
+            fillTitleError && !title ? "border-red-600" : "border-[#828FA340]"
+          } input_text h-10 w-full `}
           placeholder="e.g. Take coffee break"
           value={title}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +113,7 @@ const FormNewTask = () => {
           <p
             className={`${
               fillTitleError && !title
-            } absolute right-1 top-[50%] translate-y-[-50%] text-xs text-red-600 sm:right-4`}
+            } absolute right-1 top-[50%] translate-y-[30%] text-xs text-red-600 sm:right-4`}
           >
             {fillTitleError}
           </p>

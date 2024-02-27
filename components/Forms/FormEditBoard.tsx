@@ -10,6 +10,7 @@ const FormEditBoard = () => {
   const dispatch = useAppDispatch();
 
   const [spinner, setSpinner] = useState<boolean>(false);
+  const [submitClicked, setSubmitClicked] = useState<boolean>(false);
 
   const activePage = useAppSelector(
     (state) => state.activeBoardSlice.activeBoard,
@@ -23,17 +24,24 @@ const FormEditBoard = () => {
 
   const submitForm = async (e: any) => {
     e.preventDefault();
-    setSpinner(true);
-    //TODO error handling
-    if (!boardName) {
-      setSpinner(false);
-      setFillNameError(true);
-      return;
-    } else {
-      await editBoard(activePage, boardName);
-      const boards: any = await getBoard();
-      dispatch({ type: "dataDB/getData", payload: boards });
-      dispatch({ type: "activeMenu/toggleEditBoard" });
+
+    try {
+      if (!boardName) {
+        setFillNameError(true);
+        return;
+      } else if (!submitClicked) {
+        setSubmitClicked(true);
+        setSpinner(true);
+
+        await editBoard(activePage, boardName);
+        const boards: any = await getBoard();
+        dispatch({ type: "dataDB/getData", payload: boards });
+        dispatch({ type: "activeMenu/toggleEditBoard" });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmitClicked(false);
       setSpinner(false);
     }
   };
